@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
+import TaskCard2 from "../../components/Cards/TaskCard2";
 import toast from "react-hot-toast";
 
 const MyTasks = () => {
@@ -39,8 +40,16 @@ const MyTasks = () => {
     }
   };
 
-  const handleClick = (taskId) => {
-    navigate(`/user/task-details/${taskId}`);
+  const handleClick = (task) => {
+    const title = task.title.toLowerCase();
+
+    if (title.includes("pretest")) {
+      navigate(`/user/pretest/${task._id}`);
+      // } else if (title.includes("postes")) {
+      //   navigate(`/user/postes/${task._id}`);
+    } else {
+      navigate(`/user/task-details/${task._id}`);
+    }
   };
 
   useEffect(() => {
@@ -52,12 +61,10 @@ const MyTasks = () => {
     <DashboardLayout activeMenu="Courses">
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
-          <h2 className="text-xl md:text-xl font-medium">Courses</h2>
-
-          {tabs?.[0]?.count > 0 && <TaskStatusTabs tabs={tabs} activeTab={filterStatus} setActiveTab={setFilterStatus} />}
+          <h2 className="text-xl md:text-xl font-medium">Air dan Tumbuhan</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           {allTasks?.map((item, index) => (
             <TaskCard
               key={item._id}
@@ -72,9 +79,43 @@ const MyTasks = () => {
               attachmentCount={item.attachments?.length || 0}
               completedTodoCount={item.completedTodoCount || 0}
               todoChecklist={item.todoChecklist || []}
-              onClick={() => handleClick(item._id)}
+              onClick={() => handleClick(item)}
             />
           ))}
+        </div> */}
+
+        <div className="relative flex flex-col gap-6 mt-4 pl-4">
+          {allTasks?.map((item, index) => {
+            const isLocked = index > 0 && allTasks[index - 1].status !== "Completed";
+            const isCompleted = item.status === "Completed";
+            const isLast = index === allTasks.length - 1;
+
+            return (
+              <div key={item._id} className="flex">
+                {/* Lingkaran indikator */}
+                <div className="absolute mt-4">
+                  <div className={`w-8 h-8 rounded-full z-10 ${isCompleted ? "bg-blue-500" : "bg-gray-300"}`} />
+                  {!isLast && <div className={`ml-2.5 -mt-1 w-3 h-16 z-0 ${isCompleted ? "bg-blue-500" : "bg-gray-300"}`} />}
+                </div>
+                <div className="w-full ml-12">
+                  <TaskCard2
+                    title={item.title}
+                    description={item.description}
+                    status={item.status}
+                    createdAt={item.createdAt}
+                    assignedTo={item.assignedTo}
+                    attachmentCount={item.attachments?.length || 0}
+                    completedTodoCount={item.completedTodoCount || 0}
+                    onClick={() => {
+                      if (!isLocked) handleClick(item);
+                    }}
+                    isLocked={isLocked}
+                    isCompleted={isCompleted}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </DashboardLayout>

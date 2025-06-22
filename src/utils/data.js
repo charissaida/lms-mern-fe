@@ -1,4 +1,4 @@
-import { LuLayoutDashboard, LuUsers, LuClipboardCheck, LuSquarePlus, LuLogOut } from "react-icons/lu";
+import { LuLayoutDashboard, LuUsers, LuClipboardCheck, LuSquarePlus, LuLogOut, LuSettings } from "react-icons/lu";
 
 export const SIDE_MENU_DATA = [
   {
@@ -15,15 +15,15 @@ export const SIDE_MENU_DATA = [
   },
   {
     id: "03",
-    label: "Create Course",
-    icon: LuSquarePlus,
-    path: "/admin/create-task",
-  },
-  {
-    id: "04",
     label: "Team Members",
     icon: LuUsers,
     path: "/admin/users",
+  },
+  {
+    id: "04",
+    label: "Settings",
+    icon: LuSettings,
+    path: "/admin/setting",
   },
   {
     id: "05",
@@ -48,6 +48,12 @@ export const SIDE_MENU_USER_DATA = [
   },
   {
     id: "03",
+    label: "Settings",
+    icon: LuSettings,
+    path: "/user/setting",
+  },
+  {
+    id: "04",
     label: "Logout",
     icon: LuLogOut,
     type: "logout",

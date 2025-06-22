@@ -95,7 +95,7 @@ const CreateTask = () => {
           completed: matchedTask?.completed || false,
         };
       });
-
+      console.log(API_PATHS.TASKS.UPDATE_TASK_BY_ID(taskId));
       const response = await axiosInstance.put(API_PATHS.TASKS.UPDATE_TASK_BY_ID(taskId), {
         ...taskData,
         dueDate: new Date(taskData.dueDate).toISOString(),

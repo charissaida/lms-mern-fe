@@ -13,6 +13,13 @@ import PrivateRoute from "./routes/PrivateRoute";
 import UserProvider, { UserContext } from "./context/userContext";
 import { Toaster } from "react-hot-toast";
 import LandingPage from "./pages/LandingPage";
+import UserSetting from "./pages/User/UserSetting";
+import Setting from "./pages/Admin/Setting";
+import PretestPage from "./pages/User/DetailTask/PretestPage";
+import PretestAdmin from "./pages/Admin/DetailTask/PretestAdmin";
+import PostestAdmin from "./pages/Admin/DetailTask/PostestAdmin";
+import PretestListAnswer from "./pages/Admin/AnswerTask/PretestListAnswer";
+import PretestAnswerDetail from "./pages/Admin/DetailAnswer/PretestAnswerDetail";
 
 const App = () => {
   return (
@@ -29,6 +36,15 @@ const App = () => {
               <Route path="/admin/tasks" element={<ManageTasks />} />
               <Route path="/admin/create-task" element={<CreateTask />} />
               <Route path="/admin/users" element={<ManageUsers />} />
+              <Route path="/admin/setting" element={<Setting />} />
+
+              {/* Pretest */}
+              <Route path="/admin/create-task/pretest" element={<PretestAdmin />} />
+              <Route path="/admin/list-answer/pretest" element={<PretestListAnswer />} />
+              <Route path="/admin/answer/pretest/:id" element={<PretestAnswerDetail />} />
+
+              {/* Postest */}
+              <Route path="/admin/create-task/postest" element={<PostestAdmin />} />
             </Route>
 
             {/* User */}
@@ -36,6 +52,9 @@ const App = () => {
               <Route path="/user/dashboard" element={<UserDashboard />} />
               <Route path="/user/tasks" element={<MyTasks />} />
               <Route path="/user/task-details/:id" element={<ViewTaskDetails />} />
+              <Route path="/user/pretest/:id" element={<PretestPage />} />
+              {/* <Route path="/user/postes/:id" element={<Postes />} /> */}
+              <Route path="/user/setting" element={<UserSetting />} />
             </Route>
 
             {/* Default Route */}
