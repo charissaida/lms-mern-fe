@@ -21,7 +21,7 @@ export const API_PATHS = {
     GET_USER_DASHBOARD_DATA: "/api/tasks/user-dashboard-data",
     GET_ALL_TASKS: "/api/tasks",
     GET_TASK_BY_ID: (taskId) => `/api/tasks/${taskId}`,
-    GET_TASK_BY_TYPE: (taskType) => `/api/tasks/${taskType}`,
+    GET_TASK_BY_TYPE: (taskType) => `/api/tasks/type/${taskType}`,
     CREATE_TASK: "/api/tasks",
     UPDATE_TASK_BY_ID: (taskId, taskType) => `/api/tasks/${taskType}/${taskId}`,
     DELETE_TASK_BY_ID: (taskId) => `/api/tasks/${taskId}`,
@@ -31,7 +31,12 @@ export const API_PATHS = {
 
     CREATE_TASK_BY_TYPE: (taskType) => `/api/tasks/${taskType}`,
     DELETE_QUESTION_BY_ID_TYPE: (taskId, questionType, questionId) => `/api/tasks/${taskId}/questions/${questionId}?type=${questionType}`,
-    POST_SUBMISSION_BY_TASK_ID: (taskId) => `/api/task-submissions/${taskId}`,
+    POST_SUBMISSION_BY_TASK_ID: (taskType, taskId) => `/api/task-submissions/${taskType}/${taskId}`,
+    GET_SUBMISSION_BY_TASK_ID: (taskId) => `/api/task-submissions/task/${taskId}`,
+    GET_SUBMISSION_BY_ID_USER: (taskType, userId) => `/api/task-submissions/${taskType}/user/${userId}`,
+    POST_SUBMISSION_SCORE: (taskType, taskId, userId) => `/api/task-submissions/${taskType}/${taskId}/score/${userId}`,
+
+    POST_SURVEY: "/api/survei",
   },
 
   REPORTS: {

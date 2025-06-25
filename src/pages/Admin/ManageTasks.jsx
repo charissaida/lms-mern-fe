@@ -70,31 +70,38 @@ const ManageTasks = () => {
                   </td>
                 </tr>
               ) : (
-                allTasks.map((task) => (
-                  <tr key={task._id} className="border-t">
-                    <td className="p-3 text-gray-500">{task.title}</td>
-                    <td className="p-3 text-gray-500">{new Date(task.dueDate).toLocaleDateString()}</td>
-                    <td className="p-3">
-                      <button
-                        onClick={() => {
-                          let type = "";
-                          if (task.isPretest) type = "pretest";
-                          else if (task.isPostest) type = "postest";
-                          else type = ""; // fallback jika bukan pretest/postest
+                allTasks.map((task) => {
+                  let type = "";
+                  if (task.isPretest) type = "pretest";
+                  else if (task.isPostest) type = "postest";
+                  else type = "";
 
-                          const targetPath = type ? `/admin/create-task/${type}` : "/admin/create-task";
-                          navigate(targetPath, { state: { taskId: task._id } });
-                        }}
-                        className="text-blue-600 cursor-pointer mr-3 hover:underline"
-                      >
-                        Edit
-                      </button>
-                      <button onClick={() => navigate(`/admin/tasks/${task._id}/answers`)} className="text-green-600 cursor-pointer hover:underline">
-                        Lihat Jawaban
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                  return (
+                    <tr key={task._id} className="border-t">
+                      <td className="p-3 text-gray-500">{task.title}</td>
+                      <td className="p-3 text-gray-500">{new Date(task.dueDate).toLocaleDateString()}</td>
+                      <td className="p-3 space-x-4">
+                        <button
+                          onClick={() => {
+                            const targetPath = type ? `/admin/create-task/${type}` : "/admin/create-task";
+                            navigate(targetPath, { state: { taskId: task._id } });
+                          }}
+                          className="text-blue-600 cursor-pointer mr-3 hover:underline"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (type) navigate(`/admin/list-answer/${type}/${task._id}`);
+                          }}
+                          className="text-green-600 cursor-pointer hover:underline"
+                        >
+                          Lihat Jawaban
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

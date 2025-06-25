@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi";
 import axiosInstance from "../../../utils/axiosInstance";
@@ -6,6 +6,7 @@ import { API_PATHS } from "../../../utils/apiPaths";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { GiBackwardTime } from "react-icons/gi";
 import toast from "react-hot-toast";
+import { UserContext } from "../../../context/userContext";
 
 const PretestPage = () => {
   const { id } = useParams();
@@ -13,6 +14,8 @@ const PretestPage = () => {
   const [task, setTask] = useState(null);
   const [answers, setAnswers] = useState({});
   const [essayAnswers, setEssayAnswers] = useState({});
+  const [submission, setSubmission] = useState(null);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const getTask = async () => {
@@ -23,18 +26,51 @@ const PretestPage = () => {
         console.error("Error loading task:", e);
       }
     };
-    getTask();
-  }, [id]);
 
-  const handleMCQChange = (qId, opt) => setAnswers((prev) => ({ ...prev, [qId]: opt }));
+    const getSubmission = async () => {
+      try {
+        const res = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("pretest", user._id));
+        const data = res.data.submissions.find((s) => s.task._id === id);
+        if (data) {
+          setSubmission(data);
 
-  const handleEssayChange = (qId, val) => setEssayAnswers((prev) => ({ ...prev, [qId]: val }));
+          const mcq = {};
+          data.multipleChoiceAnswers.forEach((a) => {
+            mcq[a.questionId] = a.selectedOption;
+          });
+          setAnswers(mcq);
+
+          const essay = {};
+          data.essayAnswers.forEach((a) => {
+            essay[a.questionId] = a.answer;
+          });
+          setEssayAnswers(essay);
+        }
+      } catch (err) {
+        console.error("Error fetching submission:", err);
+      }
+    };
+
+    if (user?._id) {
+      getTask();
+      getSubmission();
+    }
+  }, [id, user?._id]);
+
+  const handleMCQChange = (qId, opt) => {
+    if (submission) return;
+    setAnswers((prev) => ({ ...prev, [qId]: opt }));
+  };
+
+  const handleEssayChange = (qId, val) => {
+    if (submission) return;
+    setEssayAnswers((prev) => ({ ...prev, [qId]: val }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!task) return;
+    if (!task || submission) return;
 
-    // Format payload sesuai requirement
     const payload = {
       multipleChoiceAnswers: Object.entries(answers).map(([questionId, selectedOption]) => ({
         questionId,
@@ -47,9 +83,10 @@ const PretestPage = () => {
     };
 
     try {
-      await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_BY_TASK_ID(id), payload);
+      await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_BY_TASK_ID("pretest", id), payload);
       toast.success("Jawaban berhasil dikirim!");
-      navigate("/user/tasks");
+      window.location.reload();
+      setSubmission(res.data.submission); // refresh untuk ambil ulang data submission
     } catch (err) {
       toast.error("Gagal mengirim jawaban");
       console.error("Error submitting answers:", err.response?.data.message || err.message);
@@ -81,7 +118,7 @@ const PretestPage = () => {
                 <div className="space-y-2">
                   {q.options.map((opt, idx) => (
                     <label key={idx} className="block bg-gray-100 text-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-blue-50">
-                      <input type="radio" name={q._id} value={opt} checked={answers[q._id] === opt} onChange={() => handleMCQChange(q._id, opt)} className="mr-2" />
+                      <input type="radio" name={q._id} value={opt} checked={answers[q._id] === opt} onChange={() => handleMCQChange(q._id, opt)} disabled={!!submission} className="mr-2" />
                       {String.fromCharCode(65 + idx)}. {opt}
                     </label>
                   ))}
@@ -100,14 +137,21 @@ const PretestPage = () => {
                   className="w-full border-2 border-gray-300 rounded px-3 py-2 resize-none"
                   rows={4}
                   placeholder="Isi jawaban essai..."
+                  disabled={!!submission}
                 />
               </div>
             ))}
 
-            <button type="submit" className="w-full bg-blue-600 text-lg text-white py-2.5 cursor-pointer rounded-md hover:bg-blue-700 transition">
-              Kumpulkan
+            <button type="submit" disabled={!!submission} className={`w-full ${submission ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"} text-lg text-white py-2.5 rounded-md transition cursor-pointer`}>
+              {submission ? "Sudah Dikirim" : "Kumpulkan"}
             </button>
-            <button type="button" className="w-full bg-gray-600 text-white text-lg py-2.5 cursor-pointer rounded-md hover:bg-gray-700 transition">
+
+            <button
+              type="button"
+              disabled={!submission || !submission.score || submission.score <= 0}
+              className={`w-full ${submission && submission.score > 0 ? "bg-gray-600 hover:bg-gray-700" : "bg-gray-300 cursor-not-allowed"} text-white text-lg py-2.5 rounded-md transition cursor-pointer`}
+              onClick={() => navigate(`/user/pretest/result/${id}`)}
+            >
               Nilai
             </button>
           </form>

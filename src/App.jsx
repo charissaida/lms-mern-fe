@@ -20,6 +20,8 @@ import PretestAdmin from "./pages/Admin/DetailTask/PretestAdmin";
 import PostestAdmin from "./pages/Admin/DetailTask/PostestAdmin";
 import PretestListAnswer from "./pages/Admin/AnswerTask/PretestListAnswer";
 import PretestAnswerDetail from "./pages/Admin/DetailAnswer/PretestAnswerDetail";
+import PretestResultAnswer from "./pages/User/ResultAnswer/PretestResultAnswer";
+import SurveyPage from "./pages/User/Surveypage";
 
 const App = () => {
   return (
@@ -40,8 +42,8 @@ const App = () => {
 
               {/* Pretest */}
               <Route path="/admin/create-task/pretest" element={<PretestAdmin />} />
-              <Route path="/admin/list-answer/pretest" element={<PretestListAnswer />} />
-              <Route path="/admin/answer/pretest/:id" element={<PretestAnswerDetail />} />
+              <Route path="/admin/list-answer/pretest/:taskId" element={<PretestListAnswer />} />
+              <Route path="/admin/answer/pretest/:userId" element={<PretestAnswerDetail />} />
 
               {/* Postest */}
               <Route path="/admin/create-task/postest" element={<PostestAdmin />} />
@@ -52,7 +54,12 @@ const App = () => {
               <Route path="/user/dashboard" element={<UserDashboard />} />
               <Route path="/user/tasks" element={<MyTasks />} />
               <Route path="/user/task-details/:id" element={<ViewTaskDetails />} />
+              <Route path="/survey" element={<SurveyPage />} />
+
+              {/* Pretest */}
               <Route path="/user/pretest/:id" element={<PretestPage />} />
+              <Route path="/user/pretest/result/:id" element={<PretestResultAnswer />} />
+
               {/* <Route path="/user/postes/:id" element={<Postes />} /> */}
               <Route path="/user/setting" element={<UserSetting />} />
             </Route>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import axiosInstance from "../../../utils/axiosInstance";
+import { API_PATHS } from "../../../utils/apiPaths";
 
 const PretestListAnswer = () => {
   const { taskId } = useParams();
@@ -10,8 +11,8 @@ const PretestListAnswer = () => {
 
   const getUserAnswers = async () => {
     try {
-      const res = await axiosInstance.get(`/api/tasks/${taskId}/user-answers`);
-      setAnswers(res.data || []);
+      const res = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_TASK_ID(taskId));
+      setAnswers(res.data.submissions || []);
     } catch (error) {
       console.error("Gagal mengambil data jawaban:", error);
     }
@@ -23,7 +24,7 @@ const PretestListAnswer = () => {
 
   return (
     <DashboardLayout activeMenu="Manage Courses">
-      <div className="p-6 max-w-6xl mx-auto bg-white rounded-xl shadow-md">
+      <div className="p-6 max-w-6xl mt-4 mx-auto bg-white rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4">Jawaban Siswa</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left">
@@ -44,12 +45,12 @@ const PretestListAnswer = () => {
                 </tr>
               ) : (
                 answers.map((answer) => (
-                  <tr key={answer.userId} className="border-t">
-                    <td className="p-3">{answer.name}</td>
-                    <td className="p-3">{answer.email}</td>
+                  <tr key={answer._id} className="border-t">
+                    <td className="p-3">{answer.user?.name}</td>
+                    <td className="p-3">{answer.user?.email}</td>
                     <td className="p-3">{answer.score ?? "-"}</td>
                     <td className="p-3">
-                      <button onClick={() => navigate(`/admin/tasks/${taskId}/answers/${answer.userId}`)} className="text-blue-600 hover:underline">
+                      <button onClick={() => navigate(`/admin/answer/pretest/${answer.user._id}`)} className="text-blue-600 hover:underline cursor-pointer">
                         Lihat & Nilai
                       </button>
                     </td>
