@@ -61,7 +61,7 @@ const ProblemPage = () => {
           <div className="bg-white p-4 rounded-lg shadow mb-6">
             <h2 className="text-xl font-semibold">{task.title}</h2>
             <p className="text-gray-600">{task.description}</p>
-            <div className="mt-6 h-2 bg-blue-500 rounded-full"></div>
+            <div className="mt-11 h-2 bg-blue-500 rounded-full"></div>
           </div>
 
           <div className="bg-white p-4 rounded-lg shadow">

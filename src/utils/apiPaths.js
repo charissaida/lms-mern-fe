@@ -42,7 +42,7 @@ export const API_PATHS = {
     GET_ALL_TASK_MINDMAP: "/api/mindmap",
     GET_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
     GET_SUBMISSION_MINDMAP_BY_TASK_ID: (taskId) => `/api/mindmap/${taskId}/submissions`,
-    GET_SUBMISSION_MINMAP_BY_ID_USER: (taskId) => `/api/mindmap/${taskId}/mysubmission`,
+    GET_SUBMISSION_MINDMAP_BY_ID_USER: (taskId) => `/api/mindmap/${taskId}/mysubmission`,
     UPDATE_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
     DELETE_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
     POST_SUBMISSION_MINDMAP_BY_TASK_ID: (taskMindmapId) => `/api/mindmap/${taskMindmapId}/submit`,

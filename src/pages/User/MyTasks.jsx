@@ -19,14 +19,23 @@ const MyTasks = () => {
 
   const getAllTasks = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
-        params: { status: filterStatus === "All" ? "" : filterStatus },
-      });
-      setAllTasks(response.data?.tasks?.length > 0 ? response.data.tasks : []);
+      const [generalRes, mindmapRes] = await Promise.all([
+        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
+          params: { status: filterStatus === "All" ? "" : filterStatus },
+        }),
+        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP),
+      ]);
 
-      // Map statusSummary data with fixed labels and order
-      const statusSummary = response.data?.statusSummary || {};
+      const generalTasks = generalRes.data?.tasks || [];
+      const mindmapTasks = mindmapRes.data || [];
 
+      // Gabungkan dan urutkan berdasarkan createdAt
+      const combinedTasks = [...generalTasks, ...mindmapTasks];
+      const sortedTasks = combinedTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+      setAllTasks(sortedTasks);
+
+      const statusSummary = generalRes.data?.statusSummary || {};
       const statusArray = [
         { label: "All", count: statusSummary.all || 0 },
         { label: "Pending", count: statusSummary.pendingTasks || 0 },
@@ -36,7 +45,8 @@ const MyTasks = () => {
 
       setTabs(statusArray);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error fetching tasks:", error);
+      toast.error("Gagal mengambil data tugas");
     }
   };
 
@@ -49,6 +59,8 @@ const MyTasks = () => {
       navigate(`/user/postest/${task._id}`);
     } else if (title.includes("problem")) {
       navigate(`/user/problem/${task._id}`);
+    } else if (title.includes("mindmap")) {
+      navigate(`/user/mindmap/${task._id}`);
     } else {
       navigate(`/user/task-details/${task._id}`);
     }

@@ -18,11 +18,25 @@ const ManageTasks = () => {
 
   const getAllTasks = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
-        params: { status: filterStatus === "All" ? "" : filterStatus },
-      });
-      setAllTasks(response.data?.tasks || []);
-      const summary = response.data?.statusSummary || {};
+      const [taskRes, mindmapRes] = await Promise.all([
+        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
+          params: { status: filterStatus === "All" ? "" : filterStatus },
+        }),
+        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP),
+      ]);
+
+      const tasks = taskRes.data?.tasks || [];
+      const mindmaps = mindmapRes.data || [];
+
+      // Tandai setiap task dan mindmap dengan type
+      const allData = [...tasks.map((t) => ({ ...t, taskType: "task" })), ...mindmaps.map((m) => ({ ...m, taskType: "mindmap" }))];
+
+      // Urutkan berdasarkan createdAt (terbaru dulu)
+      const sorted = allData.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+      setAllTasks(sorted);
+
+      const summary = taskRes.data?.statusSummary || {};
       setTabs([
         { label: "All", count: summary.all || 0 },
         { label: "Pending", count: summary.pendingTasks || 0 },
@@ -31,6 +45,7 @@ const ManageTasks = () => {
       ]);
     } catch (error) {
       console.error("Error fetching tasks:", error);
+      toast.error("Gagal memuat semua tugas");
     }
   };
 
@@ -48,9 +63,6 @@ const ManageTasks = () => {
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-4">
           <h2 className="text-xl font-medium">Manage Course</h2>
-          {/* <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer" onClick={() => setIsModalOpen(true)}>
-            + Tambah Course
-          </button> */}
         </div>
 
         <div className="overflow-x-auto shadow-md">
@@ -75,6 +87,7 @@ const ManageTasks = () => {
                   if (task.isPretest) type = "pretest";
                   else if (task.isPostest) type = "postest";
                   else if (task.isProblem) type = "problem";
+                  else if (task.taskType === "mindmap") type = "mindmap";
                   else type = "";
 
                   return (

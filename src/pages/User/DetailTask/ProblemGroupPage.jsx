@@ -49,6 +49,8 @@ const ProblemGroupPage = () => {
 
         const resMsg = await axiosInstance.get(`/api/groups/${resGroup.data._id}/messages`);
         setMessages(resMsg.data);
+
+        getSubmission();
       } catch (err) {
         console.error(err);
         toast.error("Gagal memuat data");
@@ -80,6 +82,22 @@ const ProblemGroupPage = () => {
     }
   }, [messages]);
 
+  const getSubmission = async () => {
+    try {
+      const res = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("problem", user._id));
+      const data = res.data.submissions.find((s) => s.task._id === taskId);
+      if (data) {
+        setSubmission(data);
+
+        // Cek apakah ada jawaban untuk problemId ini
+        const existing = data.problemAnswer?.find((a) => a.questionId === problemId);
+        if (existing) setAnswer(existing.problem);
+      }
+    } catch (err) {
+      console.error("Error fetching submission:", err);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!answer || !problemId || !taskId) return;
@@ -91,7 +109,8 @@ const ProblemGroupPage = () => {
     try {
       await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_BY_TASK_ID("problem", taskId), payload);
       toast.success("Jawaban berhasil dikirim!");
-      setSubmission({ done: true });
+      window.location.reload();
+      setSubmission(res.data.submission);
     } catch (err) {
       console.error("Submit error:", err);
       toast.error("Gagal mengirim jawaban");
@@ -171,7 +190,7 @@ const ProblemGroupPage = () => {
 
               <div className="flex gap-2">
                 <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} className="flex-1 border rounded px-3 py-2" placeholder="Tulis pesan..." />
-                <button type="button" onClick={handleSendMessage} className="bg-blue-600 text-white px-4 py-2 rounded">
+                <button type="button" onClick={handleSendMessage} className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">
                   Kirim
                 </button>
               </div>

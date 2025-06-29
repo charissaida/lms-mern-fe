@@ -33,6 +33,9 @@ import ProblemPage from "./pages/User/DetailTask/ProblemPage";
 import ProblemGroupPage from "./pages/User/DetailTask/ProblemGroupPage";
 import ProblemResultAnswer from "./pages/User/ResultAnswer/ProblemResultAnswer";
 import ProblemAnswerDetail from "./pages/Admin/DetailAnswer/ProblemAnswerDetail";
+import MindmapAdmin from "./pages/Admin/DetailTask/MindmapAdmin";
+import MindmapListAnswer from "./pages/Admin/AnswerTask/MindmapListAnswer";
+import MindmapPage from "./pages/User/DetailTask/Mindmappage";
 
 const App = () => {
   return (
@@ -66,6 +69,11 @@ const App = () => {
               <Route path="/admin/list-answer/problem/:taskId" element={<ProblemListAnswer />} />
               <Route path="/admin/edit-problem/:problemId" element={<EditProblemByGroup />} />
               <Route path="/admin/answer/problem/:userId" element={<ProblemAnswerDetail />} />
+
+              {/* Mindmap */}
+              <Route path="/admin/create-task/mindmap" element={<MindmapAdmin />} />
+              <Route path="/admin/list-answer/mindmap/:taskId" element={<MindmapListAnswer />} />
+              <Route path="/admin/answer/mindmap/:userId" element={<PostestAnswerDetail />} />
             </Route>
 
             {/* User */}
@@ -88,6 +96,10 @@ const App = () => {
               <Route path="/user/problem/:id" element={<ProblemPage />} />
               <Route path="/user/problem/group/:id" element={<ProblemGroupPage />} />
               <Route path="/user/problem/result/:id" element={<ProblemResultAnswer />} />
+
+              {/* Mindap */}
+              <Route path="/user/mindmap/:id" element={<MindmapPage />} />
+              <Route path="/user/mindmap/result/:id" element={<PostestResultAnswer />} />
             </Route>
 
             {/* Default Route */}

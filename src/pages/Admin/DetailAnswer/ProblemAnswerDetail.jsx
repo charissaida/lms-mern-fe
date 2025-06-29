@@ -7,12 +7,15 @@ import { API_PATHS } from "../../../utils/apiPaths";
 
 const ProblemAnswerDetail = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
+
   const [score, setScore] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [task, setTask] = useState(null);
   const [submission, setSubmission] = useState(null);
   const [problemScores, setProblemScores] = useState({});
-  const navigate = useNavigate();
+  const [groupChats, setGroupChats] = useState({});
+  const [groupMessages, setGroupMessages] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,12 +34,29 @@ const ProblemAnswerDetail = () => {
         const taskData = taskRes.data;
         setTask(taskData);
 
-        // Inisialisasi nilai problem dengan 0
         const initScores = {};
-        submissionData.problemAnswer?.forEach((a) => {
-          initScores[a.questionId] = 0;
-        });
+        const chatGroups = {};
+        const chatMessages = {};
+
+        await Promise.all(
+          submissionData.problemAnswer?.map(async (a) => {
+            initScores[a.questionId] = 0;
+            try {
+              const resGroup = await axiosInstance.get(`/api/groups/problem/${a.questionId}`);
+              const group = resGroup.data;
+              chatGroups[a.questionId] = group;
+
+              const resMessages = await axiosInstance.get(`/api/groups/${group._id}/messages`);
+              chatMessages[a.questionId] = resMessages.data;
+            } catch (err) {
+              console.warn("Gagal mengambil grup atau pesan untuk", a.questionId);
+            }
+          })
+        );
+
         setProblemScores(initScores);
+        setGroupChats(chatGroups);
+        setGroupMessages(chatMessages);
       } catch (err) {
         toast.error("Gagal memuat data jawaban siswa");
         console.error(err);
@@ -46,7 +66,6 @@ const ProblemAnswerDetail = () => {
     fetchData();
   }, [userId]);
 
-  // Perbarui nilai total jika ada perubahan nilai per-problem
   useEffect(() => {
     const values = Object.values(problemScores);
     if (values.length > 0) {
@@ -75,7 +94,7 @@ const ProblemAnswerDetail = () => {
       toast.success("Nilai berhasil disimpan");
       navigate(`/admin/list-answer/problem/${submission.task._id}`);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error("Gagal menyimpan nilai");
     } finally {
       setIsSubmitting(false);
@@ -87,7 +106,7 @@ const ProblemAnswerDetail = () => {
       <div className="max-w-4xl mx-auto mt-4 p-6 bg-white rounded shadow">
         <h2 className="text-xl font-semibold mb-4">Penilaian Jawaban Siswa</h2>
 
-        {/* Otomatis Hitung Nilai Total */}
+        {/* Skor Total */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2">Nilai Total :</label>
           <input type="number" value={score} disabled className="border rounded px-3 py-2 w-32 text-gray-600 bg-gray-100" min={0} max={100} />
@@ -98,34 +117,75 @@ const ProblemAnswerDetail = () => {
 
         {task && submission && (
           <>
-            <h3 className="text-lg font-semibold mb-2">Jawaban Problem (Kelompok)</h3>
+            <h3 className="text-lg font-semibold mb-4">Jawaban Problem (Kelompok)</h3>
             {submission.problemAnswer?.length === 0 ? (
               <p className="text-sm italic text-gray-500">User belum mengerjakan soal problem.</p>
             ) : (
-              submission.problemAnswer.map((ans, index) => {
+              submission.problemAnswer.map((ans) => {
                 const problem = task.problem.find((p) => p._id === ans.questionId);
                 const groupIndex = task.problem.findIndex((p) => p._id === ans.questionId);
 
                 return (
-                  <div key={ans.questionId} className="mb-2">
+                  <div key={ans.questionId} className="mb-8 rounded-lg">
                     <p className="font-medium text-lg mb-2">Kelompok {groupIndex + 1}</p>
-                    <p className="font-medium text-md mb-2">
-                      Soal: <br />
-                      {problem?.problem || "Soal tidak ditemukan"}
-                    </p>
-                    <p className="text-md text-gray-600 mt-1">
-                      Jawaban: <br />
-                      {ans.problem || "-"}
-                    </p>
+                    <p className="font-medium text-md mb-2">Soal:</p>
+                    <p className="mb-2">{problem?.problem || "Soal tidak ditemukan"}</p>
+
+                    <p className="font-medium text-md mt-4 mb-1">Jawaban:</p>
+                    <p className="text-gray-700">{ans.problem || "-"}</p>
+
+                    <label className="block mt-4 mb-2 font-medium text-sm">Nilai:</label>
                     <input
                       type="number"
-                      placeholder="Nilai"
-                      className="border rounded px-3 py-1 mt-4 w-32"
+                      className="border rounded px-3 py-1 w-32"
                       min={0}
                       max={100}
                       value={problemScores[ans.questionId] !== undefined && problemScores[ans.questionId] !== null ? parseInt(problemScores[ans.questionId]) || "" : ""}
                       onChange={(e) => handleProblemScoreChange(ans.questionId, Number(e.target.value))}
                     />
+
+                    {/* Chat Group Section */}
+                    {groupChats[ans.questionId] && (
+                      <div className="mt-6">
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Obrolan Grup</h4>
+                        <div className="h-60 overflow-y-auto border p-2 rounded mb-3 bg-gray-50">
+                          {groupMessages[ans.questionId]?.length > 0 ? (
+                            groupMessages[ans.questionId].map((msg, i) => {
+                              const isMe = false; // Admin tidak membandingkan user, jadi selalu false
+                              return (
+                                <div key={i} className={`flex mb-3 ${isMe ? "justify-end" : "justify-start"}`}>
+                                  <div className={`max-w-[80%] ${isMe ? "text-right" : "text-left"}`}>
+                                    {!isMe && (
+                                      <div className="flex items-center gap-2 mb-1">
+                                        {msg?.senderId?.profileImageUrl ? (
+                                          <img src={msg.senderId.profileImageUrl} alt="avatar" className="w-6 h-6 rounded-full" />
+                                        ) : (
+                                          <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center">
+                                            <span className="text-xs text-gray-700">👤</span>
+                                          </div>
+                                        )}
+                                        <span className="text-xs text-gray-500">{msg.senderId?.name || "Anonim"}</span>
+                                      </div>
+                                    )}
+
+                                    <div className={`px-4 py-2 rounded-lg text-sm ${isMe ? "bg-blue-600 text-white rounded-br-none" : "bg-gray-100 text-gray-800 rounded-bl-none"}`}>{msg.message}</div>
+
+                                    <p className="text-xs text-gray-400 mt-1">
+                                      {new Date(msg.createdAt).toLocaleTimeString("id-ID", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <p className="text-gray-500">Belum ada pesan dalam grup ini.</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })
