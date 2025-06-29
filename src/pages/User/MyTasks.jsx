@@ -45,8 +45,10 @@ const MyTasks = () => {
 
     if (title.includes("pretest")) {
       navigate(`/user/pretest/${task._id}`);
-      // } else if (title.includes("postes")) {
-      //   navigate(`/user/postes/${task._id}`);
+    } else if (title.includes("postest")) {
+      navigate(`/user/postest/${task._id}`);
+    } else if (title.includes("problem")) {
+      navigate(`/user/problem/${task._id}`);
     } else {
       navigate(`/user/task-details/${task._id}`);
     }

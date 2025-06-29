@@ -22,6 +22,17 @@ import PretestListAnswer from "./pages/Admin/AnswerTask/PretestListAnswer";
 import PretestAnswerDetail from "./pages/Admin/DetailAnswer/PretestAnswerDetail";
 import PretestResultAnswer from "./pages/User/ResultAnswer/PretestResultAnswer";
 import SurveyPage from "./pages/User/Surveypage";
+import ProblemListAnswer from "./pages/Admin/AnswerTask/ProblemListAnswer";
+import ProblemAdmin from "./pages/Admin/DetailTask/ProblemAdmin";
+import EditProblemByGroup from "./pages/Admin/DetailTask/EditProblemByGroup";
+import PostestListAnswer from "./pages/Admin/AnswerTask/PostestListAnswer";
+import PostestAnswerDetail from "./pages/Admin/DetailAnswer/PostestAnswerDetail";
+import PostestPage from "./pages/User/DetailTask/PostestPage";
+import PostestResultAnswer from "./pages/User/ResultAnswer/PostestResultAnswer";
+import ProblemPage from "./pages/User/DetailTask/ProblemPage";
+import ProblemGroupPage from "./pages/User/DetailTask/ProblemGroupPage";
+import ProblemResultAnswer from "./pages/User/ResultAnswer/ProblemResultAnswer";
+import ProblemAnswerDetail from "./pages/Admin/DetailAnswer/ProblemAnswerDetail";
 
 const App = () => {
   return (
@@ -47,6 +58,14 @@ const App = () => {
 
               {/* Postest */}
               <Route path="/admin/create-task/postest" element={<PostestAdmin />} />
+              <Route path="/admin/list-answer/postest/:taskId" element={<PostestListAnswer />} />
+              <Route path="/admin/answer/postest/:userId" element={<PostestAnswerDetail />} />
+
+              {/* Problem */}
+              <Route path="/admin/create-task/problem" element={<ProblemAdmin />} />
+              <Route path="/admin/list-answer/problem/:taskId" element={<ProblemListAnswer />} />
+              <Route path="/admin/edit-problem/:problemId" element={<EditProblemByGroup />} />
+              <Route path="/admin/answer/problem/:userId" element={<ProblemAnswerDetail />} />
             </Route>
 
             {/* User */}
@@ -55,13 +74,20 @@ const App = () => {
               <Route path="/user/tasks" element={<MyTasks />} />
               <Route path="/user/task-details/:id" element={<ViewTaskDetails />} />
               <Route path="/survey" element={<SurveyPage />} />
+              <Route path="/user/setting" element={<UserSetting />} />
 
               {/* Pretest */}
               <Route path="/user/pretest/:id" element={<PretestPage />} />
               <Route path="/user/pretest/result/:id" element={<PretestResultAnswer />} />
 
-              {/* <Route path="/user/postes/:id" element={<Postes />} /> */}
-              <Route path="/user/setting" element={<UserSetting />} />
+              {/* Postest */}
+              <Route path="/user/postest/:id" element={<PostestPage />} />
+              <Route path="/user/postest/result/:id" element={<PostestResultAnswer />} />
+
+              {/* Problem */}
+              <Route path="/user/problem/:id" element={<ProblemPage />} />
+              <Route path="/user/problem/group/:id" element={<ProblemGroupPage />} />
+              <Route path="/user/problem/result/:id" element={<ProblemResultAnswer />} />
             </Route>
 
             {/* Default Route */}

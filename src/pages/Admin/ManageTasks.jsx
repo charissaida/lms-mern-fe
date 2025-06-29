@@ -74,6 +74,7 @@ const ManageTasks = () => {
                   let type = "";
                   if (task.isPretest) type = "pretest";
                   else if (task.isPostest) type = "postest";
+                  else if (task.isProblem) type = "problem";
                   else type = "";
 
                   return (

@@ -37,6 +37,16 @@ export const API_PATHS = {
     POST_SUBMISSION_SCORE: (taskType, taskId, userId) => `/api/task-submissions/${taskType}/${taskId}/score/${userId}`,
 
     POST_SURVEY: "/api/survei",
+
+    CREATE_TASK_MINDMAP: "/api/mindmap",
+    GET_ALL_TASK_MINDMAP: "/api/mindmap",
+    GET_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
+    GET_SUBMISSION_MINDMAP_BY_TASK_ID: (taskId) => `/api/mindmap/${taskId}/submissions`,
+    GET_SUBMISSION_MINMAP_BY_ID_USER: (taskId) => `/api/mindmap/${taskId}/mysubmission`,
+    UPDATE_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
+    DELETE_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
+    POST_SUBMISSION_MINDMAP_BY_TASK_ID: (taskMindmapId) => `/api/mindmap/${taskMindmapId}/submit`,
+    GET_ALL_SUBMISSION_MINDMAP: "/api/mindmap/submissions",
   },
 
   REPORTS: {
@@ -46,5 +56,11 @@ export const API_PATHS = {
 
   IMAGE: {
     UPLOAD_IMAGE: "/api/auth/upload-image",
+  },
+
+  GROUPS: {
+    GET_GROUP_BY_PROBLEM_ID: (taskId, problemId) => `/api/tasks/${taskId}/problem/${problemId}/group`,
+    GET_MESSAGES_BY_GROUP_ID: (groupId) => `/api/groups/${groupId}/messages`,
+    POST_MESSAGE_TO_GROUP: (groupId) => `/api/groups/${groupId}/messages`,
   },
 };
