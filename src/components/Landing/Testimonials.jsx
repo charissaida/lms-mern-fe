@@ -95,13 +95,6 @@ const Testimonials = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        <div className="flex justify-center mt-10">
-          <Link to="/login" className="bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-900 text-sm flex items-center gap-2">
-            Mulai Belajar
-            <span>→</span>
-          </Link>
-        </div>
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
+import { HiChevronLeft } from "react-icons/hi";
 
 const PretestAnswerDetail = () => {
   const { userId } = useParams();
@@ -115,6 +116,11 @@ const PretestAnswerDetail = () => {
 
   return (
     <DashboardLayout activeMenu="Manage Courses">
+      <div className="max-w-4xl mt-4 mx-auto">
+        <button onClick={() => navigate(-1)} className="flex items-center mb-2 text-blue-600 hover:underline cursor-pointer">
+          <HiChevronLeft className="mr-1" /> Kembali
+        </button>
+      </div>
       <div className="max-w-4xl mx-auto mt-4 p-6 bg-white rounded shadow">
         <h2 className="text-xl font-semibold mb-4">Penilaian Jawaban Siswa</h2>
 

@@ -5,6 +5,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { ObjectId } from "bson";
+import { HiChevronLeft } from "react-icons/hi";
 
 const PretestAdmin = () => {
   const location = useLocation();
@@ -143,6 +144,11 @@ const PretestAdmin = () => {
 
   return (
     <DashboardLayout activeMenu="Manage Courses">
+      <div className="max-w-4xl mt-4 mx-auto">
+        <button onClick={() => navigate(-1)} className="flex items-center mb-2 text-blue-600 hover:underline cursor-pointer">
+          <HiChevronLeft className="mr-1" /> Kembali
+        </button>
+      </div>
       <div className="p-6 max-w-4xl my-4 shadow-md bg-white rounded-xl mx-auto">
         <h2 className="text-xl font-semibold mb-4">{taskId ? "Edit Pretest" : "Buat Pretest"}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

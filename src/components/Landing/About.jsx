@@ -15,8 +15,13 @@ function About() {
         {/* Text */}
         <div className="md:w-1/2 space-y-4">
           <h2 className="text-xl font-bold text-gray-800">Tentang Kami</h2>
-          <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <p className="text-sm text-gray-600">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p className="text-sm text-gray-600">
+            EduPlant Metrics adalah media e-portfolio inovatif yang dirancang untuk mendukung proses pembelajaran Fisiologi Tumbuhan secara terstruktur, terukur, dan berorientasi pada pengembangan keterampilan abad ke-21.
+          </p>
+          <p className="text-sm text-gray-600">
+            Platform ini memfasilitasi keterlibatan aktif mahasiswa dalam pembelajaran berbasis masalah (Problem-Based Learning), dengan integrasi pendekatan Deep Learning yang mencakup aspek joyful, mindful, dan meaningful learning.
+            E-portfolio ini difokuskan pada materi “Hubungan Air dan Tumbuhan”, yang mencakup topik air dan sel, transpirasi, nutrisi, dan transport pada tumbuhan.
+          </p>
           <button className="mt-4 px-5 py-2 bg-gray-700 text-white text-sm rounded hover:bg-gray-900 transition cursor-pointer">Kenali Fitur Kami →</button>
         </div>
       </div>

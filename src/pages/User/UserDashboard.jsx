@@ -77,7 +77,7 @@ const UserDashboard = () => {
       <div className="card my-5">
         <div>
           <div className="col-span-3">
-            <h2 className="text-xl md:text-2xl">Good Morning! {user?.name}</h2>
+            <h2 className="text-xl md:text-2xl">Selamat Datang! {user?.name}</h2>
             <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">{moment().format("dddd Do MMM YYYY")}</p>
           </div>
         </div>
@@ -97,7 +97,7 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      <div className="card mt-5">
+      <div className="card my-5">
         <h2 className="text-2xl font-semibold mb-4">Apa yang akan Anda pelajari</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-800 mb-6">
           <p>✓ Create mobile app designs from scratch</p>
@@ -125,7 +125,7 @@ const UserDashboard = () => {
         <button className="mt-4 text-sm text-green-700 hover:underline">See more</button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6">
         <div className="md:col-span-2">
           <div className="card">
             <div className="flex items-center justify-between">
@@ -139,7 +139,7 @@ const UserDashboard = () => {
             <TaskListTable tableData={dashboardData?.recentTasks || []} />
           </div>
         </div>
-      </div>
+      </div> */}
     </DashboardLayout>
   );
 };

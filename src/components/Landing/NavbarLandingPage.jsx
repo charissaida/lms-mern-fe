@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
 
 function NavbarLandingPage() {
   return (
     <nav className="fixed top-0 z-50 w-full px-14 py-4 flex justify-between items-center bg-white shadow-sm">
       <div className="flex items-center space-x-2">
-        <div className="w-5 h-5 bg-gradient-to-b from-blue-500 to-green-400 rounded-full"></div>
-        <span className="text-sm font-semibold">Logo</span>
+        <img src={logo} alt="Logo" className="h-6" />
+        <span className="text-sm font-semibold">EduPlant Metrics</span>
       </div>
       <ul className="hidden md:flex space-x-6 text-sm text-gray-700 font-medium">
         <li>

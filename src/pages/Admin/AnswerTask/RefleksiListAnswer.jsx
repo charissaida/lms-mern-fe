@@ -5,7 +5,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
 import { HiChevronLeft } from "react-icons/hi";
 
-const PretestListAnswer = () => {
+const RefleksiListAnswer = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const [answers, setAnswers] = useState([]);
@@ -56,7 +56,7 @@ const PretestListAnswer = () => {
                     <td className="p-3">{answer.user?.email}</td>
                     <td className="p-3">{answer.score ?? "-"}</td>
                     <td className="p-3">
-                      <button onClick={() => navigate(`/admin/answer/pretest/${answer.user._id}`)} className="text-blue-600 hover:underline cursor-pointer">
+                      <button onClick={() => navigate(`/admin/answer/refleksi/${answer.user._id}`)} className="text-blue-600 hover:underline cursor-pointer">
                         Lihat & Nilai
                       </button>
                     </td>
@@ -71,4 +71,4 @@ const PretestListAnswer = () => {
   );
 };
 
-export default PretestListAnswer;
+export default RefleksiListAnswer;

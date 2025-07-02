@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
+import { HiChevronLeft } from "react-icons/hi";
 
 const MindmapListAnswer = () => {
   const { taskId } = useParams();
@@ -12,7 +13,7 @@ const MindmapListAnswer = () => {
   const getUserAnswers = async () => {
     try {
       const res = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_MINDMAP_BY_TASK_ID(taskId));
-      setAnswers(res.data.submissions || []);
+      setAnswers(res.data || []);
     } catch (error) {
       console.error("Gagal mengambil data jawaban:", error);
     }
@@ -24,6 +25,11 @@ const MindmapListAnswer = () => {
 
   return (
     <DashboardLayout activeMenu="Manage Courses">
+      <div className="max-w-6xl mt-4 mx-auto">
+        <button onClick={() => navigate(-1)} className="flex items-center mb-2 text-blue-600 hover:underline cursor-pointer">
+          <HiChevronLeft className="mr-1" /> Kembali
+        </button>
+      </div>
       <div className="p-6 max-w-6xl mt-4 mx-auto bg-white rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4">Jawaban Siswa</h2>
         <div className="overflow-x-auto">
@@ -50,7 +56,7 @@ const MindmapListAnswer = () => {
                     <td className="p-3">{answer.user?.email}</td>
                     <td className="p-3">{answer.score ?? "-"}</td>
                     <td className="p-3">
-                      <button onClick={() => navigate(`/admin/answer/mindmap/${answer.user._id}`)} className="text-blue-600 hover:underline cursor-pointer">
+                      <button onClick={() => navigate(`/admin/answer/mindmap/${taskId}/${answer.user._id}`)} className="text-blue-600 hover:underline cursor-pointer">
                         Lihat & Nilai
                       </button>
                     </td>

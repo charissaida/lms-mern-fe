@@ -47,6 +47,17 @@ export const API_PATHS = {
     DELETE_TASK_MINDMAP_BY_ID: (taskId) => `/api/mindmap/${taskId}`,
     POST_SUBMISSION_MINDMAP_BY_TASK_ID: (taskMindmapId) => `/api/mindmap/${taskMindmapId}/submit`,
     GET_ALL_SUBMISSION_MINDMAP: "/api/mindmap/submissions",
+    GET_SUBMISSION_MINDMAP_ADMIN_BY_ID_USER: (userId) => `/api/mindmap/submissions/${userId}`,
+    UPDATE_MINDMAP_SCORE: (submissionId) => `/api/mindmap/${submissionId}/score`,
+    UPDATE_MINDMAP_STATUS: (taskId) => `/api/mindmap/${taskId}/status`,
+
+    CREATE_MATERIALS: "/api/materials",
+    GET_MATERIALS: "/api/materials",
+    GET_MATERIALS_BY_TYPE: (materialType) => `/api/materials/${materialType}`,
+    UPDATE_MATERIALS_BY_ID: (materialId) => `/api/materials/${materialId}`,
+    DELETE_MATERIALS_BY_ID: (materialId) => `/api/materials/${materialId}`,
+    UPDATE_MATERIALS_STATUS: (materialId) => `/api/materials/${materialId}/status`,
+    DELETE_MATERIALS_FILE_BY_ID: (materialId, fileName) => `/api/materials/${materialId}/files/${fileName}`,
   },
 
   REPORTS: {

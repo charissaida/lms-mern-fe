@@ -6,7 +6,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
 import { HiChevronLeft } from "react-icons/hi";
 
-const PostestAnswerDetail = () => {
+const RefleksiAnswerDetail = () => {
   const { userId } = useParams();
   const [score, setScore] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +19,8 @@ const PostestAnswerDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Ambil submission berdasarkan user dan jenis postest
-        const submissionRes = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("postest", userId));
+        // Ambil submission berdasarkan user dan jenis refleksi
+        const submissionRes = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("refleksi", userId));
         const submissionData = submissionRes.data.submissions[0];
 
         if (!submissionData) {
@@ -31,8 +31,8 @@ const PostestAnswerDetail = () => {
         setSubmission(submissionData);
         setTaskId(submissionData.task._id);
 
-        // Ambil detail soal postest
-        const taskRes = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_TYPE("postest"));
+        // Ambil detail soal refleksi
+        const taskRes = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_TYPE("refleksi"));
         const taskData = taskRes.data.tasks.find((t) => t._id === submissionData.task._id);
         setTask(taskData);
 
@@ -103,8 +103,8 @@ const PostestAnswerDetail = () => {
 
     try {
       setIsSubmitting(true);
-      await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_SCORE("postest", taskId, userId), { score });
-      navigate(`/admin/list-answer/postest/${taskId}`);
+      await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_SCORE("refleksi", taskId, userId), { score });
+      navigate(`/admin/list-answer/refleksi/${taskId}`);
       toast.success("Nilai berhasil disimpan");
     } catch (err) {
       console.log(err);
@@ -159,24 +159,6 @@ const PostestAnswerDetail = () => {
                 );
               })
             )}
-
-            <h3 className="text-lg font-semibold mt-6 mb-2">Jawaban Pilihan Ganda</h3>
-            {task.multipleChoiceQuestions.length === 0 ? (
-              <p className="text-sm italic text-gray-500">Tidak ada soal pilihan ganda.</p>
-            ) : (
-              task.multipleChoiceQuestions.map((q, index) => {
-                const ans = submission.multipleChoiceAnswers.find((a) => a.questionId === q._id);
-                return (
-                  <div key={q._id} className="mb-4">
-                    <p className="font-medium">
-                      {index + 1}. {q.question}
-                    </p>
-                    <p className="text-sm text-gray-600 mt-1">Jawaban: {ans?.selectedOption || "-"}</p>
-                    <p className="text-sm text-green-600">Kunci: {q.answer}</p>
-                  </div>
-                );
-              })
-            )}
           </>
         )}
       </div>
@@ -184,4 +166,4 @@ const PostestAnswerDetail = () => {
   );
 };
 
-export default PostestAnswerDetail;
+export default RefleksiAnswerDetail;

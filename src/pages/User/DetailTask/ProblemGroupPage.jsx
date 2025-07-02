@@ -103,7 +103,7 @@ const ProblemGroupPage = () => {
     if (!answer || !problemId || !taskId) return;
 
     const payload = {
-      problemAnswer: [{ questionId: problemId, problem: answer }],
+      problemAnswer: [{ questionId: problemId, problem: answer, groupId: group?._id }],
     };
 
     try {

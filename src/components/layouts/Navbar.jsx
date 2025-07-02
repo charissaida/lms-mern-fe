@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import SideMenu from "./SideMenu";
 import logo from "../../assets/images/logo.png";
+import avatar from "../../assets/images/avatar.png";
 import { UserContext } from "../../context/userContext";
 
 const Navbar = ({ activeMenu }) => {
@@ -22,11 +23,11 @@ const Navbar = ({ activeMenu }) => {
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-1">
           <img src={logo} alt="Logo" className="h-6" />
-          <h2 className="text-lg font-medium text-black">Task Manager</h2>
+          <h2 className="text-lg font-medium text-black">EduPlant Metrics</h2>
         </div>
         <div className="flex items-center justify-center gap-2">
           <div className="relative">
-            <img src={user?.profileImageUrl || ""} alt="Profile Image" className="w-8 h-8 bg-slate-400 rounded-full" />
+            <img src={user?.profileImageUrl || avatar} alt="Profile Image" className="w-8 h-8 bg-slate-400 rounded-full" />
           </div>
 
           <div className="flex flex-col justify-center">

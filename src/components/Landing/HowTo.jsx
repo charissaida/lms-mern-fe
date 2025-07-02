@@ -3,28 +3,43 @@ import React from "react";
 const steps = [
   {
     number: "1",
-    title: "Login",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+    title: "Login ke Sistem",
+    description: "Akses tautan EduPlant Metrics, masuk dengan NIM dan kata sandi Anda, lalu pastikan informasi profil sudah benar.",
   },
   {
     number: "2",
-    title: "Akses Materi & kerjakan Soal",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+    title: "Akses Perangkat Pembelajaran",
+    description: "Unduh Rencana Pembelajaran Semester (RPS) dan Satuan Acara Perkuliahan (SAP) dari menu Perangkat Pembelajaran sebagai panduan.",
   },
   {
     number: "3",
-    title: "Ikuti Studi Kasus & Diskusi",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+    title: "Navigasi ke Course Room",
+    description: "Ikuti seluruh rangkaian pembelajaran di Course Room secara berurutan, mulai dari pretest, tahapan PBL, materi, posttest, hingga refleksi dan angket.",
   },
   {
     number: "4",
-    title: "Berikan Testimoni",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+    title: "Unggah dan Lihat Penilaian Tugas",
+    description: "Unggah file tugas Anda sesuai instruksi dan tenggat waktu, kemudian lihat rincian capaian pembelajaran berbasis rubrik setelah dinilai.",
   },
   {
     number: "5",
-    title: "Simpan Hasil di E-Portofolio",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .",
+    title: "Unduh E-Portfolio",
+    description: "Anda dapat mengunduh seluruh rekam jejak tugas dan penilaian dalam format PDF melalui menu Unduhan.",
+  },
+  {
+    number: "6",
+    title: "Gunakan Forum Diskusi",
+    description: "Manfaatkan Forum Diskusi untuk bertanya, menanggapi, dan merefleksikan ide secara kolaboratif dengan rekan satu kelompok.",
+  },
+  {
+    number: "7",
+    title: "Pantau Emosi Belajar (Joyful Learning)",
+    description: "Berikan respons emoticon setelah setiap sesi untuk mencerminkan pengalaman belajar Anda dan tumbuhkan tanaman virtual dengan menyelesaikan tugas secara rutin.",
+  },
+  {
+    number: "8",
+    title: "Konsistensi dan Kualitas (Mindful & Meaningful Learning)",
+    description: "Pastikan setiap tugas yang dikirimkan menunjukkan pemikiran kritis dan keterkaitan antara materi dengan konteks nyata.",
   },
 ];
 

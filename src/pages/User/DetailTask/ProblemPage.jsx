@@ -14,6 +14,7 @@ const ProblemPage = () => {
   const [task, setTask] = useState(null);
   const { user } = useContext(UserContext);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [submission, setSubmission] = useState(null);
 
   // Cek dari localStorage
   useEffect(() => {
@@ -24,17 +25,31 @@ const ProblemPage = () => {
   }, [id, user]);
 
   useEffect(() => {
-    const getTask = async () => {
+    const getTaskAndSubmission = async () => {
       try {
         const res = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_ID(id));
         setTask(res.data);
+
+        // Fetch submission user
+        const submissionRes = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("problem", user._id));
+        const found = submissionRes.data.submissions.find((s) => s.task._id === id);
+        if (found) {
+          setSubmission(found);
+
+          // Cek groupId dari jawaban
+          const answered = found.problemAnswer?.[0];
+          if (answered?.groupId) {
+            setSelectedGroupId(answered.groupId);
+            localStorage.setItem(`selectedGroup_${id}_${user._id}`, answered.groupId);
+          }
+        }
       } catch (e) {
-        console.error("Error loading task:", e);
+        console.error("Error loading task or submission:", e);
       }
     };
 
     if (user?._id) {
-      getTask();
+      getTaskAndSubmission();
     }
   }, [id, user?._id]);
 
@@ -69,7 +84,8 @@ const ProblemPage = () => {
             {task.problem.length === 6 && (
               <div className="flex gap-2 mt-2 mb-4">
                 {task.problem.map((item, index) => {
-                  const isDisabled = selectedGroupId && selectedGroupId !== item._id;
+                  const isDisabled = selectedGroupId && selectedGroupId !== item.groupId;
+
                   return (
                     <button
                       key={item._id}
@@ -77,7 +93,7 @@ const ProblemPage = () => {
                       onClick={() => handleSelectGroup(item._id, index)}
                       disabled={isDisabled}
                       className={`w-full py-4 rounded text-white cursor-pointer transition
-                        ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
+            ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
                     >
                       Kelompok {index + 1}
                     </button>
@@ -85,7 +101,7 @@ const ProblemPage = () => {
                 })}
               </div>
             )}
-            {selectedGroupId && <p className="text-sm text-green-600">Kamu sudah memilih kelompok dan tidak bisa mengubahnya.</p>}
+            {submission && selectedGroupId && <p className="text-sm text-green-600">Kamu sudah memilih kelompok dan tidak bisa mengubahnya.</p>}
           </div>
         </div>
 

@@ -4,6 +4,7 @@ import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import avatar from "../../assets/images/avatar.png";
 
 const SideMenu = ({ activeMenu }) => {
   const { user, clearUser } = useContext(UserContext);
@@ -46,7 +47,7 @@ const SideMenu = ({ activeMenu }) => {
       <div className="block lg:hidden">
         <div className="flex flex-col items-center justify-center mb-7 pt-5">
           <div className="relative">
-            <img src={user?.profileImageUrl || ""} alt="Profile Image" className="w-20 h-20 bg-slate-400 rounded-full" />
+            <img src={user?.profileImageUrl || avatar} alt="Profile Image" className="w-20 h-20 bg-slate-400 rounded-full" />
           </div>
 
           {user?.role === "admin" && <div className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">Admin</div>}

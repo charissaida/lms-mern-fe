@@ -19,18 +19,25 @@ const MyTasks = () => {
 
   const getAllTasks = async () => {
     try {
-      const [generalRes, mindmapRes] = await Promise.all([
+      const [generalRes, mindmapRes, materialRes] = await Promise.all([
         axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
           params: { status: filterStatus === "All" ? "" : filterStatus },
         }),
         axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP),
+        axiosInstance.get(API_PATHS.TASKS.GET_MATERIALS),
       ]);
 
       const generalTasks = generalRes.data?.tasks || [];
       const mindmapTasks = mindmapRes.data || [];
+      const materialTasks =
+        materialRes.data?.map((m, i) => ({
+          ...m,
+          taskType: "material",
+          title: i === 0 && m.term ? m.term : m.title || m.term || "Materi",
+        })) || [];
 
-      // Gabungkan dan urutkan berdasarkan createdAt
-      const combinedTasks = [...generalTasks, ...mindmapTasks];
+      const combinedTasks = [...generalTasks, ...mindmapTasks, ...materialTasks];
+
       const sortedTasks = combinedTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
       setAllTasks(sortedTasks);
@@ -61,6 +68,12 @@ const MyTasks = () => {
       navigate(`/user/problem/${task._id}`);
     } else if (title.includes("mindmap")) {
       navigate(`/user/mindmap/${task._id}`);
+    } else if (title.includes("refleksi")) {
+      navigate(`/user/refleksi/${task._id}`);
+    } else if (title.includes("materi")) {
+      navigate(`/user/materi/${task._id}`);
+    } else if (title.includes("glosarium")) {
+      navigate(`/user/glosarium/${task._id}`);
     } else {
       navigate(`/user/task-details/${task._id}`);
     }
@@ -75,7 +88,7 @@ const MyTasks = () => {
     <DashboardLayout activeMenu="Courses">
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
-          <h2 className="text-xl md:text-xl font-medium">Air dan Tumbuhan</h2>
+          <h2 className="text-xl md:text-xl font-medium">Hubungan Air dan Tumbuhan</h2>
         </div>
 
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">

@@ -9,11 +9,11 @@ function Hero() {
         {/* Left Content */}
         <div className="md:w-1/2 space-y-4">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Belajar Terstruktur <br /> Evaluasi Terukur
+            Belajar Terstruktur <br /> Nilai Terukur
           </h1>
           <p className="text-gray-600 text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur.
+            EduPlant Metrics tidak hanya menjadi media pengumpulan tugas, tetapi juga sebagai alat refleksi, dokumentasi, dan visualisasi pertumbuhan belajar mahasiswa dalam memahami fisiologi tumbuhan secara mendalam, bermakna, dan
+            menyenangkan.
           </p>
           <Link to="/login" className="px-5 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition cursor-pointer">
             Mulai Belajar

@@ -6,6 +6,7 @@ import Features from "../components/Landing/Features";
 import HowTo from "../components/Landing/HowTo";
 import Testimonials from "../components/Landing/Testimonials";
 import Footer from "../components/Landing/Footer";
+import LearningResources from "../components/Landing/LearningResources";
 
 const LandingPage = () => {
   return (
@@ -16,6 +17,7 @@ const LandingPage = () => {
       <Features />
       <HowTo />
       <Testimonials />
+      <LearningResources />
       <Footer />
     </>
   );

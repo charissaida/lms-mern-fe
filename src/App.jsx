@@ -36,6 +36,17 @@ import ProblemAnswerDetail from "./pages/Admin/DetailAnswer/ProblemAnswerDetail"
 import MindmapAdmin from "./pages/Admin/DetailTask/MindmapAdmin";
 import MindmapListAnswer from "./pages/Admin/AnswerTask/MindmapListAnswer";
 import MindmapPage from "./pages/User/DetailTask/Mindmappage";
+import MindmapResultAnswer from "./pages/User/ResultAnswer/MindmapResultAnswer";
+import MindmapAnswerDetail from "./pages/Admin/DetailAnswer/MindmapAnswerDetail";
+import RefleksiAdmin from "./pages/Admin/DetailTask/RefleksiAdmin";
+import RefleksiListAnswer from "./pages/Admin/AnswerTask/RefleksiListAnswer";
+import RefleksiAnswerDetail from "./pages/Admin/DetailAnswer/RefleksiAnswerDetail";
+import RefleksiPage from "./pages/User/DetailTask/RefleksiPage";
+import RefleksiResultAnswer from "./pages/User/ResultAnswer/RefleksiResultAnswer";
+import MateriAdmin from "./pages/Admin/DetailTask/MateriAdmin";
+import MateriPage from "./pages/User/DetailTask/MateriPage";
+import GlosariumPage from "./pages/User/DetailTask/GlosariumPage";
+import GlosariumAdmin from "./pages/Admin/DetailTask/GlosariumAdmin";
 
 const App = () => {
   return (
@@ -73,7 +84,18 @@ const App = () => {
               {/* Mindmap */}
               <Route path="/admin/create-task/mindmap" element={<MindmapAdmin />} />
               <Route path="/admin/list-answer/mindmap/:taskId" element={<MindmapListAnswer />} />
-              <Route path="/admin/answer/mindmap/:userId" element={<PostestAnswerDetail />} />
+              <Route path="/admin/answer/mindmap/:taskId/:userId" element={<MindmapAnswerDetail />} />
+
+              {/* Refleksi */}
+              <Route path="/admin/create-task/refleksi" element={<RefleksiAdmin />} />
+              <Route path="/admin/list-answer/refleksi/:taskId" element={<RefleksiListAnswer />} />
+              <Route path="/admin/answer/refleksi/:userId" element={<RefleksiAnswerDetail />} />
+
+              {/* Materi */}
+              <Route path="/admin/create-task/materi" element={<MateriAdmin />} />
+
+              {/* Glosarium */}
+              <Route path="/admin/create-task/glosarium" element={<GlosariumAdmin />} />
             </Route>
 
             {/* User */}
@@ -99,7 +121,17 @@ const App = () => {
 
               {/* Mindap */}
               <Route path="/user/mindmap/:id" element={<MindmapPage />} />
-              <Route path="/user/mindmap/result/:id" element={<PostestResultAnswer />} />
+              <Route path="/user/mindmap/result/:id" element={<MindmapResultAnswer />} />
+
+              {/* Refleksi */}
+              <Route path="/user/refleksi/:id" element={<RefleksiPage />} />
+              <Route path="/user/refleksi/result/:id" element={<RefleksiResultAnswer />} />
+
+              {/* Materi */}
+              <Route path="/user/materi/:id" element={<MateriPage />} />
+
+              {/* Glosarium */}
+              <Route path="/user/glosarium/:id" element={<GlosariumPage />} />
             </Route>
 
             {/* Default Route */}

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
+import { HiChevronLeft } from "react-icons/hi";
 
 const PostestListAnswer = () => {
   const { taskId } = useParams();
@@ -24,6 +25,11 @@ const PostestListAnswer = () => {
 
   return (
     <DashboardLayout activeMenu="Manage Courses">
+      <div className="max-w-6xl mt-4 mx-auto">
+        <button onClick={() => navigate(-1)} className="flex items-center mb-2 text-blue-600 hover:underline cursor-pointer">
+          <HiChevronLeft className="mr-1" /> Kembali
+        </button>
+      </div>
       <div className="p-6 max-w-6xl mt-4 mx-auto bg-white rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4">Jawaban Siswa</h2>
         <div className="overflow-x-auto">

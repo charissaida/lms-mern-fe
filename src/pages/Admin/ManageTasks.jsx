@@ -18,22 +18,29 @@ const ManageTasks = () => {
 
   const getAllTasks = async () => {
     try {
-      const [taskRes, mindmapRes] = await Promise.all([
+      const [taskRes, mindmapRes, materialRes] = await Promise.all([
         axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
           params: { status: filterStatus === "All" ? "" : filterStatus },
         }),
         axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP),
+        axiosInstance.get(API_PATHS.TASKS.GET_MATERIALS),
       ]);
 
       const tasks = taskRes.data?.tasks || [];
       const mindmaps = mindmapRes.data || [];
+      const materials = materialRes.data || [];
 
-      // Tandai setiap task dan mindmap dengan type
-      const allData = [...tasks.map((t) => ({ ...t, taskType: "task" })), ...mindmaps.map((m) => ({ ...m, taskType: "mindmap" }))];
+      const allData = [
+        ...tasks.map((t) => ({ ...t, taskType: "task" })),
+        ...mindmaps.map((m) => ({ ...m, taskType: "mindmap" })),
+        ...materials.map((m) => ({
+          ...m,
+          taskType: "material",
+          title: m.term || m.title,
+        })),
+      ];
 
-      // Urutkan berdasarkan createdAt (terbaru dulu)
       const sorted = allData.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-
       setAllTasks(sorted);
 
       const summary = taskRes.data?.statusSummary || {};
@@ -87,6 +94,9 @@ const ManageTasks = () => {
                   if (task.isPretest) type = "pretest";
                   else if (task.isPostest) type = "postest";
                   else if (task.isProblem) type = "problem";
+                  else if (task.isRefleksi) type = "refleksi";
+                  else if (task.type === "materi") type = "materi";
+                  else if (task.type === "glosarium") type = "glosarium";
                   else if (task.taskType === "mindmap") type = "mindmap";
                   else type = "";
 
@@ -104,14 +114,16 @@ const ManageTasks = () => {
                         >
                           Edit
                         </button>
-                        <button
-                          onClick={() => {
-                            if (type) navigate(`/admin/list-answer/${type}/${task._id}`);
-                          }}
-                          className="text-green-600 cursor-pointer hover:underline"
-                        >
-                          Lihat Jawaban
-                        </button>
+                        {task.taskType !== "material" && (
+                          <button
+                            onClick={() => {
+                              if (type) navigate(`/admin/list-answer/${type}/${task._id}`);
+                            }}
+                            className="text-green-600 cursor-pointer hover:underline"
+                          >
+                            Lihat Jawaban
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

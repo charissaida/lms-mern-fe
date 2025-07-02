@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 import uploadImage from "../../utils/uploadImage";
+import avatar from "../../assets/images/avatar.png";
 
 const Setting = () => {
   const { user } = useContext(UserContext);
@@ -103,7 +104,7 @@ const Setting = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Foto Profil</label>
             <div className="flex items-center justify-center gap-4">
               <div className="relative">
-                <img src={formData.profileImageUrl || "https://i.pravatar.cc/150"} alt="Profile" className="w-28 h-28 rounded-full object-cover border" />
+                <img src={formData.profileImageUrl || avatar} alt="Profile" className="w-28 h-28 rounded-full object-cover border" />
                 <label className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1 shadow cursor-pointer">
                   <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                   <HiOutlineCamera className="w-5 h-5 text-white" />
