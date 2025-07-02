@@ -63,7 +63,7 @@ const MindmapPage = () => {
       <div className="flex flex-col md:flex-row gap-6 p-6">
         {/* Kiri - Konten */}
         <div className="flex-1">
-          <button onClick={() => navigate(-1)} className="flex items-center mb-4 text-blue-600 hover:underline">
+          <button onClick={() => navigate(-1)} className="flex items-center mb-4 text-blue-600 hover:underline cursor-pointer">
             <HiChevronLeft className="mr-1" /> Kembali
           </button>
 

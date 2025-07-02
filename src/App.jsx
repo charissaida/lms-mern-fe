@@ -47,6 +47,11 @@ import MateriAdmin from "./pages/Admin/DetailTask/MateriAdmin";
 import MateriPage from "./pages/User/DetailTask/MateriPage";
 import GlosariumPage from "./pages/User/DetailTask/GlosariumPage";
 import GlosariumAdmin from "./pages/Admin/DetailTask/GlosariumAdmin";
+import LoAdmin from "./pages/Admin/DetailTask/LoAdmin";
+import LoListAnswer from "./pages/Admin/AnswerTask/LoListAnswer";
+import LoPage from "./pages/User/DetailTask/LoPage";
+import LoAnswerDetail from "./pages/Admin/DetailAnswer/LoAnswerDetail";
+import KbkPage from "./pages/User/DetailTask/KbkPage";
 
 const App = () => {
   return (
@@ -96,6 +101,16 @@ const App = () => {
 
               {/* Glosarium */}
               <Route path="/admin/create-task/glosarium" element={<GlosariumAdmin />} />
+
+              {/* LO */}
+              <Route path="/admin/create-task/lo" element={<LoAdmin />} />
+              <Route path="/admin/list-answer/lo/:taskId" element={<LoListAnswer />} />
+              <Route path="/admin/answer/lo/:userId" element={<LoAnswerDetail />} />
+
+              {/* KBK */}
+              <Route path="/admin/create-task/kbk" element={<LoAdmin />} />
+              <Route path="/admin/list-answer/kbk/:taskId" element={<LoListAnswer />} />
+              <Route path="/admin/answer/kbk/:userId" element={<LoAnswerDetail />} />
             </Route>
 
             {/* User */}
@@ -132,6 +147,14 @@ const App = () => {
 
               {/* Glosarium */}
               <Route path="/user/glosarium/:id" element={<GlosariumPage />} />
+
+              {/* Lo */}
+              <Route path="/user/lo/:id" element={<LoPage />} />
+              <Route path="/user/lo/result/:id" element={<PretestResultAnswer />} />
+
+              {/* Kbk */}
+              <Route path="/user/kbk/:id" element={<KbkPage />} />
+              <Route path="/user/kbk/result/:id" element={<PretestResultAnswer />} />
             </Route>
 
             {/* Default Route */}

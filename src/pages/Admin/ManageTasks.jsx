@@ -95,6 +95,8 @@ const ManageTasks = () => {
                   else if (task.isPostest) type = "postest";
                   else if (task.isProblem) type = "problem";
                   else if (task.isRefleksi) type = "refleksi";
+                  else if (task.isLo) type = "lo";
+                  else if (task.isKbk) type = "kbk";
                   else if (task.type === "materi") type = "materi";
                   else if (task.type === "glosarium") type = "glosarium";
                   else if (task.taskType === "mindmap") type = "mindmap";

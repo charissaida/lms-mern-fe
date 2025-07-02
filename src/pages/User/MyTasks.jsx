@@ -74,6 +74,10 @@ const MyTasks = () => {
       navigate(`/user/materi/${task._id}`);
     } else if (title.includes("glosarium")) {
       navigate(`/user/glosarium/${task._id}`);
+    } else if (title.includes("learning")) {
+      navigate(`/user/lo/${task._id}`);
+    } else if (title.includes("berpikir")) {
+      navigate(`/user/kbk/${task._id}`);
     } else {
       navigate(`/user/task-details/${task._id}`);
     }
