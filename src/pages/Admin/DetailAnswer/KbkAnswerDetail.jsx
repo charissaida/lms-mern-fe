@@ -8,7 +8,7 @@ import { HiChevronLeft } from "react-icons/hi";
 
 const likertOptions = ["Sangat Tidak Setuju", "Tidak Setuju", "Netral", "Setuju", "Sangat Setuju"];
 
-const LoAnswerDetail = () => {
+const KbkAnswerDetail = () => {
   const { userId } = useParams();
   const [task, setTask] = useState(null);
   const [submission, setSubmission] = useState(null);
@@ -22,7 +22,7 @@ const LoAnswerDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const submissionRes = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("lo", userId));
+        const submissionRes = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_BY_ID_USER("kbk", userId));
         const submissionData = submissionRes.data.submissions[0];
 
         if (!submissionData) return toast.error("Data jawaban tidak ditemukan");
@@ -30,7 +30,7 @@ const LoAnswerDetail = () => {
         setSubmission(submissionData);
         setTaskId(submissionData.task._id);
 
-        const taskRes = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_TYPE("lo"));
+        const taskRes = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_TYPE("kbk"));
         const taskData = taskRes.data.tasks.find((t) => t._id === submissionData.task._id);
         setTask(taskData);
 
@@ -86,10 +86,10 @@ const LoAnswerDetail = () => {
       if (feedbackFile) {
         formData.append("feedbackFile", feedbackFile);
       }
-      await axiosInstance.put(API_PATHS.TASKS.POST_SUBMISSION_SCORE("lo", taskId, userId), formData, { headers: { "Content-Type": "multipart/form-data" } });
+      await axiosInstance.put(API_PATHS.TASKS.POST_SUBMISSION_SCORE("kbk", taskId, userId), formData, { headers: { "Content-Type": "multipart/form-data" } });
 
       toast.success("Nilai dan feedback berhasil disimpan");
-      navigate(`/admin/list-answer/lo/${taskId}`);
+      navigate(`/admin/list-answer/kbk/${taskId}`);
     } catch (err) {
       toast.error("Gagal menyimpan nilai/feedback");
     } finally {
@@ -166,4 +166,4 @@ const LoAnswerDetail = () => {
   );
 };
 
-export default LoAnswerDetail;
+export default KbkAnswerDetail;

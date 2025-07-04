@@ -94,15 +94,30 @@ const LoPage = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {task.multipleChoiceQuestions?.map((q, i) => (
-              <div key={q._id} className="bg-white p-4 rounded-lg shadow">
-                <h3 className="font-semibold mb-2">Soal {i + 1}</h3>
-                <p className="mb-2">{q.question}</p>
-                <div className="space-y-2">
+              <div key={q._id} className="bg-white p-4 rounded-lg shadow mb-4">
+                <p className="font-semibold mb-2">{q.question}</p>
+
+                {/* Label opsi di atas */}
+                <div className="grid grid-cols-5 text-sm font-medium text-gray-700 mb-2 text-center">
                   {q.options.map((opt, idx) => (
-                    <label key={idx} className="block bg-gray-100 text-gray-600 rounded px-3 py-2 cursor-pointer hover:bg-blue-50">
-                      <input type="radio" name={q._id} value={opt} checked={answers[q._id] === opt} onChange={() => handleMCQChange(q._id, opt)} disabled={!!submission} className="mr-2" />
-                      {String.fromCharCode(65 + idx)}. {opt}
-                    </label>
+                    <div key={idx}>{opt}</div>
+                  ))}
+                </div>
+
+                {/* Radio button horizontal */}
+                <div className="grid grid-cols-5 gap-2 text-center">
+                  {q.options.map((opt, idx) => (
+                    <div key={idx}>
+                      <input
+                        type="radio"
+                        name={q._id}
+                        value={opt}
+                        checked={answers[q._id] === opt}
+                        onChange={() => handleMCQChange(q._id, opt)}
+                        disabled={!!submission}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -110,6 +125,14 @@ const LoPage = () => {
 
             <button type="submit" disabled={!!submission} className={`w-full ${submission ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"} text-lg text-white py-2.5 rounded-md transition cursor-pointer`}>
               {submission ? "Sudah Dikirim" : "Kumpulkan"}
+            </button>
+            <button
+              type="button"
+              disabled={!submission || !submission.score || submission.score <= 0}
+              className={`w-full ${submission && submission.score > 0 ? "bg-gray-600 hover:bg-gray-700" : "bg-gray-300 cursor-not-allowed"} text-white text-lg py-2.5 rounded-md transition cursor-pointer`}
+              onClick={() => navigate(`/user/lo/result/${id}`)}
+            >
+              Nilai
             </button>
           </form>
         </div>

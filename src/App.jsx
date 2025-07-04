@@ -52,6 +52,11 @@ import LoListAnswer from "./pages/Admin/AnswerTask/LoListAnswer";
 import LoPage from "./pages/User/DetailTask/LoPage";
 import LoAnswerDetail from "./pages/Admin/DetailAnswer/LoAnswerDetail";
 import KbkPage from "./pages/User/DetailTask/KbkPage";
+import LoResultAnswer from "./pages/User/ResultAnswer/LoResultAnswer";
+import KbkAdmin from "./pages/Admin/DetailTask/KbkAdmin";
+import KbkAnswerDetail from "./pages/Admin/DetailAnswer/KbkAnswerDetail";
+import KbkListAnswer from "./pages/Admin/AnswerTask/KbkListAnswer";
+import KbkResultAnswer from "./pages/User/ResultAnswer/KbkResultAnswer";
 
 const App = () => {
   return (
@@ -108,9 +113,9 @@ const App = () => {
               <Route path="/admin/answer/lo/:userId" element={<LoAnswerDetail />} />
 
               {/* KBK */}
-              <Route path="/admin/create-task/kbk" element={<LoAdmin />} />
-              <Route path="/admin/list-answer/kbk/:taskId" element={<LoListAnswer />} />
-              <Route path="/admin/answer/kbk/:userId" element={<LoAnswerDetail />} />
+              <Route path="/admin/create-task/kbk" element={<KbkAdmin />} />
+              <Route path="/admin/list-answer/kbk/:taskId" element={<KbkListAnswer />} />
+              <Route path="/admin/answer/kbk/:userId" element={<KbkAnswerDetail />} />
             </Route>
 
             {/* User */}
@@ -150,11 +155,11 @@ const App = () => {
 
               {/* Lo */}
               <Route path="/user/lo/:id" element={<LoPage />} />
-              <Route path="/user/lo/result/:id" element={<PretestResultAnswer />} />
+              <Route path="/user/lo/result/:id" element={<LoResultAnswer />} />
 
               {/* Kbk */}
               <Route path="/user/kbk/:id" element={<KbkPage />} />
-              <Route path="/user/kbk/result/:id" element={<PretestResultAnswer />} />
+              <Route path="/user/kbk/result/:id" element={<KbkResultAnswer />} />
             </Route>
 
             {/* Default Route */}
