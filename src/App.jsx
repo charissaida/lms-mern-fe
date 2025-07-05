@@ -57,6 +57,7 @@ import KbkAdmin from "./pages/Admin/DetailTask/KbkAdmin";
 import KbkAnswerDetail from "./pages/Admin/DetailAnswer/KbkAnswerDetail";
 import KbkListAnswer from "./pages/Admin/AnswerTask/KbkListAnswer";
 import KbkResultAnswer from "./pages/User/ResultAnswer/KbkResultAnswer";
+import SplashScreen from "./pages/Auth/SplashScreen";
 
 const App = () => {
   return (
@@ -66,6 +67,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/splash" element={<SplashScreen />} />
 
             {/* Admin */}
             <Route element={<PrivateRoute allowedRoles={["admin"]} />}>

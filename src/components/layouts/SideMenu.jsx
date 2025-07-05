@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import avatar from "../../assets/images/avatar.png";
+import { PiWarning } from "react-icons/pi";
 
 const SideMenu = ({ activeMenu }) => {
   const { user, clearUser } = useContext(UserContext);
@@ -75,14 +76,12 @@ const SideMenu = ({ activeMenu }) => {
       {showLogoutModal && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-sm relative">
-            <button onClick={() => setShowLogoutModal(false)} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 cursor-pointer">
+            <button onClick={() => setShowLogoutModal(false)} className="absolute top-1 right-2 text-gray-400 text-2xl hover:text-gray-600 cursor-pointer">
               &times;
             </button>
             <div className="flex flex-col items-center text-center">
-              <div className="bg-blue-100 p-3 rounded-full mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 18.25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7z" />
-                </svg>
+              <div className="bg-blue-100 p-2 rounded-full mb-3">
+                <PiWarning className="text-4xl pb-0.5 text-blue-500" />
               </div>
               <p className="text-lg font-semibold mb-4">Apakah Anda yakin ingin keluar?</p>
               <div className="flex gap-4">
@@ -94,7 +93,7 @@ const SideMenu = ({ activeMenu }) => {
                     setShowLogoutModal(false);
                     handleLogout();
                   }}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
+                  className="px-9 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
                 >
                   Yes
                 </button>

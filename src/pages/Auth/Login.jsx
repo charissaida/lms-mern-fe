@@ -41,13 +41,17 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
+        // Simpan role di localStorage agar bisa diakses di SplashScreen
+        localStorage.setItem("role", role);
 
+        // Redirect dulu ke splash screen
+        navigate("/splash");
         // Rediret based on role
-        if (role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/user/dashboard");
-        }
+        // if (role === "admin") {
+        //   navigate("/admin/dashboard");
+        // } else {
+        //   navigate("/user/dashboard");
+        // }
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -64,7 +68,7 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <Input value={email} onChange={({ target }) => setEmail(target.value)} label="Email Address" placeholder="email@example.com" type="text" />
-          <Input value={password} onChange={({ target }) => setPassword(target.value)} label="Email Address" placeholder="Min 8 Characters" type="password" />
+          <Input value={password} onChange={({ target }) => setPassword(target.value)} label="Password" placeholder="Min 8 Characters" type="password" />
 
           {error && <p className="text-xs pb-2.5 text-red-500">{error}</p>}
 
