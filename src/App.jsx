@@ -58,6 +58,7 @@ import KbkAnswerDetail from "./pages/Admin/DetailAnswer/KbkAnswerDetail";
 import KbkListAnswer from "./pages/Admin/AnswerTask/KbkListAnswer";
 import KbkResultAnswer from "./pages/User/ResultAnswer/KbkResultAnswer";
 import SplashScreen from "./pages/Auth/SplashScreen";
+import EPortfolioPage from "./pages/User/DetailTask/EPortfolioPage";
 
 const App = () => {
   return (
@@ -162,6 +163,9 @@ const App = () => {
               {/* Kbk */}
               <Route path="/user/kbk/:id" element={<KbkPage />} />
               <Route path="/user/kbk/result/:id" element={<KbkResultAnswer />} />
+
+              {/* E-Portfolio */}
+              <Route path="/user/e-portfolio" element={<EPortfolioPage />} />
             </Route>
 
             {/* Default Route */}

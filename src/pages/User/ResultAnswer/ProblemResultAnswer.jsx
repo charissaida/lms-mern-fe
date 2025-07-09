@@ -72,6 +72,13 @@ const ProblemResultAnswer = () => {
               })
             )}
 
+            {submission.feedbackFile && (
+              <div className="mt-8">
+                <h4 className="text-md font-semibold mb-2">Feedback</h4>
+                <iframe src={encodeURI(submission.feedbackFile)} width="100%" height="600px" style={{ border: "1px solid #ccc", borderRadius: "8px" }} title="Feedback PDF" />
+              </div>
+            )}
+
             <button onClick={() => navigate("/survey", { state: { taskTitle: task.title, taskId: task._id } })} className="bg-blue-600 w-full cursor-pointer text-white px-6 py-2 rounded-md mt-4 hover:bg-blue-700">
               Selesai
             </button>

@@ -30,21 +30,9 @@ const SurveyPage = () => {
         idUser: user._id,
         typeSurvei: "kepuasan",
         nilai: selected,
+        idTask: taskId,
       });
 
-      if (taskTitle === "mindmap") {
-        await axiosInstance.put(API_PATHS.TASKS.UPDATE_MINDMAP_STATUS(taskId), {
-          status: "Completed",
-        });
-      } else if (taskTitle === "materi" || taskTitle === "glosarium") {
-        await axiosInstance.put(API_PATHS.TASKS.UPDATE_MATERIALS_STATUS(taskId), {
-          status: "Completed",
-        });
-      } else if (taskId) {
-        await axiosInstance.put(API_PATHS.TASKS.UPDATE_TASK_STATUS(taskId), {
-          status: "Completed",
-        });
-      }
       toast.success("Survei berhasil dikirim!");
       navigate("/user/tasks");
     } catch (err) {

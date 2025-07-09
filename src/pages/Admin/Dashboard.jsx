@@ -81,16 +81,6 @@ const Dashboard = () => {
             <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">{moment().format("dddd Do MMM YYYY")}</p>
           </div>
         </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-6 mt-5">
-          <InfoCard label="Total Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.All || 0)} color="bg-primary" />
-
-          <InfoCard label="Pending Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.Pending || 0)} color="bg-violet-500" />
-
-          <InfoCard label="In Progress Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.InProgress || 0)} color="bg-cyan-500" />
-
-          <InfoCard label="Completed Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.Completed || 0)} color="bg-lime-500" />
-        </div>
       </div>
 
       <div className="card">
@@ -107,7 +97,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="card mt-5">
+      <div className="card my-5">
         <h2 className="text-2xl font-semibold mb-4">Apa yang akan Anda pelajari</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-800 mb-6">
           <p>✓ Create mobile app designs from scratch</p>
@@ -133,42 +123,6 @@ const Dashboard = () => {
         <p className="text-gray-700">Students completing the course will have the knowledge to create beautiful and lovable apps that leave people with a smile on their face.</p>
 
         <button className="mt-4 text-sm text-green-700 hover:underline">See more</button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6">
-        <div>
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Distribution</h5>
-            </div>
-
-            <CustomPieChart data={pieChartData} colors={COLORS} />
-          </div>
-        </div>
-
-        <div>
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Priority Levels</h5>
-            </div>
-
-            <CustomBarChart data={barChartData} />
-          </div>
-        </div>
-
-        <div className="md:col-span-2">
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <h5>Recent Tasks</h5>
-
-              <button className="card-btn" onClick={onSeeMore}>
-                See All <LuArrowRight className="text-base" />
-              </button>
-            </div>
-
-            <TaskListTable tableData={dashboardData?.recentTasks || []} />
-          </div>
-        </div>
       </div>
     </DashboardLayout>
   );

@@ -22,7 +22,9 @@ function About() {
             Platform ini memfasilitasi keterlibatan aktif mahasiswa dalam pembelajaran berbasis masalah (Problem-Based Learning), dengan integrasi pendekatan Deep Learning yang mencakup aspek joyful, mindful, dan meaningful learning.
             E-portfolio ini difokuskan pada materi “Hubungan Air dan Tumbuhan”, yang mencakup topik air dan sel, transpirasi, nutrisi, dan transport pada tumbuhan.
           </p>
-          <button className="mt-4 px-5 py-2 bg-gray-700 text-white text-sm rounded hover:bg-gray-900 transition cursor-pointer">Kenali Fitur Kami →</button>
+          <a href="#fitur" className="mt-4 px-5 py-2 bg-gray-700 text-white text-sm rounded hover:bg-gray-900 transition cursor-pointer">
+            Kenali Fitur Kami →
+          </a>
         </div>
       </div>
     </section>

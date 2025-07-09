@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -8,24 +8,36 @@ import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
 import TaskCard2 from "../../components/Cards/TaskCard2";
 import toast from "react-hot-toast";
+import { UserContext } from "../../context/userContext";
 
 const MyTasks = () => {
   const [allTasks, setAllTasks] = useState([]);
-
   const [tabs, setTabs] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All");
+  const [surveyedTaskIds, setSurveyedTaskIds] = useState([]);
 
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const getSurveyedTasks = async () => {
+    try {
+      const res = await axiosInstance.get(API_PATHS.TASKS.GET_SURVEY_BY_USER_ID(user._id));
+      const surveyList = Array.isArray(res.data) ? res.data : [res.data];
+      const taskIds = surveyList.map((s) => s.idTask);
+      setSurveyedTaskIds(taskIds);
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setSurveyedTaskIds([]);
+      } else {
+        console.error("Gagal mengambil data survei:", error);
+        toast.error("Gagal mengambil data survei");
+      }
+    }
+  };
 
   const getAllTasks = async () => {
     try {
-      const [generalRes, mindmapRes, materialRes] = await Promise.all([
-        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
-          params: { status: filterStatus === "All" ? "" : filterStatus },
-        }),
-        axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP),
-        axiosInstance.get(API_PATHS.TASKS.GET_MATERIALS),
-      ]);
+      const [generalRes, mindmapRes, materialRes] = await Promise.all([axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS), axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASK_MINDMAP), axiosInstance.get(API_PATHS.TASKS.GET_MATERIALS)]);
 
       const generalTasks = generalRes.data?.tasks || [];
       const mindmapTasks = mindmapRes.data || [];
@@ -37,20 +49,24 @@ const MyTasks = () => {
         })) || [];
 
       const combinedTasks = [...generalTasks, ...mindmapTasks, ...materialTasks];
+      let sortedTasks = combinedTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-      const sortedTasks = combinedTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      // Tambahkan task E-Portfolio di akhir
+      const ePortfolioTask = {
+        _id: "e-portfolio",
+        title: "E-Portfolio",
+        description: "Lengkapi portofolio akhirmu di sini.",
+        status: "Pending",
+        createdAt: new Date().toISOString(),
+        assignedTo: [],
+        attachments: [],
+        completedTodoCount: 0,
+        todoChecklist: [],
+      };
+
+      sortedTasks = [...sortedTasks, ePortfolioTask];
 
       setAllTasks(sortedTasks);
-
-      const statusSummary = generalRes.data?.statusSummary || {};
-      const statusArray = [
-        { label: "All", count: statusSummary.all || 0 },
-        { label: "Pending", count: statusSummary.pendingTasks || 0 },
-        { label: "In Progress", count: statusSummary.inProgressTasks || 0 },
-        { label: "Completed", count: statusSummary.completedTasks || 0 },
-      ];
-
-      setTabs(statusArray);
     } catch (error) {
       console.error("Error fetching tasks:", error);
       toast.error("Gagal mengambil data tugas");
@@ -78,10 +94,18 @@ const MyTasks = () => {
       navigate(`/user/lo/${task._id}`);
     } else if (title.includes("berpikir")) {
       navigate(`/user/kbk/${task._id}`);
+    } else if (task._id === "e-portfolio") {
+      navigate("/user/e-portfolio");
     } else {
       navigate(`/user/task-details/${task._id}`);
     }
   };
+
+  useEffect(() => {
+    if (user?._id) {
+      getSurveyedTasks();
+    }
+  }, [user]);
 
   useEffect(() => {
     getAllTasks(filterStatus);
@@ -95,35 +119,14 @@ const MyTasks = () => {
           <h2 className="text-xl md:text-xl font-medium">Hubungan Air dan Tumbuhan</h2>
         </div>
 
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allTasks?.map((item, index) => (
-            <TaskCard
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              priority={item.priority}
-              status={item.status}
-              progress={item.progress}
-              createdAt={item.createdAt}
-              dueDate={item.dueDate}
-              assignedTo={item.assignedTo}
-              attachmentCount={item.attachments?.length || 0}
-              completedTodoCount={item.completedTodoCount || 0}
-              todoChecklist={item.todoChecklist || []}
-              onClick={() => handleClick(item)}
-            />
-          ))}
-        </div> */}
-
         <div className="relative flex flex-col gap-6 mt-4 pl-4">
           {allTasks?.map((item, index) => {
-            const isLocked = index > 0 && allTasks[index - 1].status !== "Completed";
-            const isCompleted = item.status === "Completed";
+            const isCompleted = surveyedTaskIds.includes(item._id);
+            const isLocked = index > 0 && !surveyedTaskIds.includes(allTasks[index - 1]._id);
             const isLast = index === allTasks.length - 1;
 
             return (
               <div key={item._id} className="flex">
-                {/* Lingkaran indikator */}
                 <div className="absolute mt-4">
                   <div className={`w-8 h-8 rounded-full z-10 ${isCompleted ? "bg-blue-500" : "bg-gray-300"}`} />
                   {!isLast && <div className={`ml-2.5 -mt-1 w-3 h-16 z-0 ${isCompleted ? "bg-blue-500" : "bg-gray-300"}`} />}
@@ -132,7 +135,7 @@ const MyTasks = () => {
                   <TaskCard2
                     title={item.title}
                     description={item.description}
-                    status={item.status}
+                    status={isCompleted ? "Completed" : "Pending"}
                     createdAt={item.createdAt}
                     assignedTo={item.assignedTo}
                     attachmentCount={item.attachments?.length || 0}

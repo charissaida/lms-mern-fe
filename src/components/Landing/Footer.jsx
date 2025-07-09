@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebook, FaGithub, FaGoogle, FaCodepen, FaMicrosoft } from "react-icons/fa";
+import logo from "../../assets/images/logo.png";
 
 const Footer = () => {
   return (
@@ -8,12 +9,11 @@ const Footer = () => {
         {/* Left Side */}
         <div className="md:mr-10">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-green-400 rounded-full" />
-            <span className="font-semibold text-lg">Logo</span>
+            <img src={logo} alt="Logo" className="h-6" />
+            <span className="font-semibold text-lg">EduPlant Metrics</span>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur.
+            EduPlant Metrics adalah media e-portfolio inovatif yang dirancang untuk mendukung proses pembelajaran Fisiologi Tumbuhan secara terstruktur, terukur, dan berorientasi pada pengembangan keterampilan abad ke-21.
           </p>
         </div>
 
@@ -29,7 +29,7 @@ const Footer = () => {
             <FaFacebook className="hover:text-blue-400 transition" />
             <FaGithub className="hover:text-gray-400 transition" />
             <FaGoogle className="hover:text-red-400 transition" />
-            <FaCodepen className="hover:text-white transition" />
+            <FaCodepen className="hover:text-gray-500 transition" />
             <FaMicrosoft className="hover:text-blue-500 transition" />
           </div>
         </div>

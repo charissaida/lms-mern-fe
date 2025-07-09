@@ -88,7 +88,7 @@ const SignUp = () => {
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout imagePosition="left">
       <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center bg-white rounded-2xl p-6 shadow-md">
         <h3 className="text-xl font-semibold text-black">Create Your Account</h3>
         <p className="text-xs text-slate-700 mt-[5px] mb-6">Join us today by entering your details below.</p>

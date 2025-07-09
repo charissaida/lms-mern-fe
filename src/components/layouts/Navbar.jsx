@@ -25,7 +25,7 @@ const Navbar = ({ activeMenu }) => {
           <img src={logo} alt="Logo" className="h-6" />
           <h2 className="text-lg font-medium text-black">EduPlant Metrics</h2>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="hidden md:flex items-center justify-center gap-2">
           <div className="relative">
             <img src={user?.profileImageUrl || avatar} alt="Profile Image" className="w-8 h-8 bg-slate-400 rounded-full" />
           </div>
@@ -38,7 +38,7 @@ const Navbar = ({ activeMenu }) => {
       </div>
 
       {openSideMenu && (
-        <div className="fixed top-[61px] -ml-4 bg-white">
+        <div className="fixed top-[40px] -ml-8 bg-white">
           <SideMenu activeMenu={activeMenu} />
         </div>
       )}

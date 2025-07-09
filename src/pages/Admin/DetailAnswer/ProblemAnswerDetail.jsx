@@ -17,6 +17,7 @@ const ProblemAnswerDetail = () => {
   const [problemScores, setProblemScores] = useState({});
   const [groupChats, setGroupChats] = useState({});
   const [groupMessages, setGroupMessages] = useState({});
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,9 +89,12 @@ const ProblemAnswerDetail = () => {
 
     try {
       setIsSubmitting(true);
-      await axiosInstance.post(API_PATHS.TASKS.POST_SUBMISSION_SCORE("problem", submission.task._id, userId), {
+      await axiosInstance.put(API_PATHS.TASKS.POST_SUBMISSION_SCORE("problem", submission.task._id, userId), {
         score,
         problemScores,
+        if(file) {
+          formData.append("feedbackFile", file);
+        },
       });
       toast.success("Nilai berhasil disimpan");
       navigate(`/admin/list-answer/problem/${submission.task._id}`);
@@ -119,6 +123,14 @@ const ProblemAnswerDetail = () => {
           <button onClick={handleScoreSubmit} disabled={isSubmitting} className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer">
             Simpan Nilai
           </button>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="file" className="block border-dashed border-2 border-blue-500 rounded-md p-4 text-center cursor-pointer text-sm text-blue-500">
+            Upload file feedback (PDF)
+            <input type="file" id="file" accept=".pdf" onChange={(e) => setFile(e.target.files[0])} className="hidden" />
+          </label>
+          {file && <p className="text-sm mt-1 text-gray-700">File terpilih: {file.name}</p>}
         </div>
 
         {task && submission && (

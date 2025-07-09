@@ -37,6 +37,7 @@ export const API_PATHS = {
     POST_SUBMISSION_SCORE: (taskType, taskId, userId) => `/api/task-submissions/${taskType}/${taskId}/score/${userId}`,
 
     POST_SURVEY: "/api/survei",
+    GET_SURVEY_BY_USER_ID: (userId) => `/api/survei/${userId}`,
 
     CREATE_TASK_MINDMAP: "/api/mindmap",
     GET_ALL_TASK_MINDMAP: "/api/mindmap",

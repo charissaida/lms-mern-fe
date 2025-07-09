@@ -74,8 +74,8 @@ const SideMenu = ({ activeMenu }) => {
       </div>
 
       {showLogoutModal && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-sm relative">
+        <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center min-h-screen">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-sm relative mx-auto">
             <button onClick={() => setShowLogoutModal(false)} className="absolute top-1 right-2 text-gray-400 text-2xl hover:text-gray-600 cursor-pointer">
               &times;
             </button>
@@ -84,7 +84,7 @@ const SideMenu = ({ activeMenu }) => {
                 <PiWarning className="text-4xl pb-0.5 text-blue-500" />
               </div>
               <p className="text-lg font-semibold mb-4">Apakah Anda yakin ingin keluar?</p>
-              <div className="flex gap-4">
+              <div className="flex gap-4 flex-wrap justify-center">
                 <button onClick={() => setShowLogoutModal(false)} className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer">
                   Cancel
                 </button>
@@ -93,7 +93,7 @@ const SideMenu = ({ activeMenu }) => {
                     setShowLogoutModal(false);
                     handleLogout();
                   }}
-                  className="px-9 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
+                  className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer"
                 >
                   Yes
                 </button>

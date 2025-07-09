@@ -121,7 +121,7 @@ const ManageTasks = () => {
                             onClick={() => {
                               if (type) navigate(`/admin/list-answer/${type}/${task._id}`);
                             }}
-                            className="text-green-600 cursor-pointer hover:underline"
+                            className="text-green-600 text-start md:text-center cursor-pointer hover:underline"
                           >
                             Lihat Jawaban
                           </button>
