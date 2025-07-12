@@ -22,7 +22,7 @@ const TaskCard2 = ({ title, description, status, createdAt, assignedTo, attachme
 
       <div className="flex flex-col gap-1 z-10 relative">
         <div className="flex justify-center items-center">
-          <h3 className="text-lg font-semibold truncate md:whitespace-normal">{title}</h3>
+          <h3 className="text-sm md:text-lg font-semibold truncate md:whitespace-normal">{title}</h3>
         </div>
       </div>
     </div>
