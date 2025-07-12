@@ -99,7 +99,7 @@ const SignUp = () => {
             <Input value={userName} onChange={({ target }) => setUserName(target.value)} label="Username" placeholder="Enter your username" type="text" />
             <Input value={fullName} onChange={({ target }) => setFullName(target.value)} label="Full Name" placeholder="Enter your full name" type="text" />
             <Input value={email} onChange={({ target }) => setEmail(target.value)} label="Email Address" placeholder="email@example.com" type="text" />
-            <Input value={password} onChange={({ target }) => setPassword(target.value)} label="Email Address" placeholder="Min 8 Characters" type="password" />
+            <Input value={password} onChange={({ target }) => setPassword(target.value)} label="Password" placeholder="Min 8 Characters" type="password" />
             <Input value={adminInviteToken} onChange={({ target }) => setAdminInviteToken(target.value)} label="Admin Invite Token" placeholder="6 Digit Code" type="text" />
           </div>
           {error && <p className="text-xs pb-2.5 text-red-500">{error}</p>}
