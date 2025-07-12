@@ -59,6 +59,7 @@ import KbkListAnswer from "./pages/Admin/AnswerTask/KbkListAnswer";
 import KbkResultAnswer from "./pages/User/ResultAnswer/KbkResultAnswer";
 import SplashScreen from "./pages/Auth/SplashScreen";
 import EPortfolioPage from "./pages/User/DetailTask/EPortfolioPage";
+import SurveyResults from "./pages/Admin/SurveyResult";
 
 const App = () => {
   return (
@@ -76,6 +77,7 @@ const App = () => {
               <Route path="/admin/tasks" element={<ManageTasks />} />
               <Route path="/admin/create-task" element={<CreateTask />} />
               <Route path="/admin/users" element={<ManageUsers />} />
+              <Route path="/admin/surveys" element={<SurveyResults />} />
               <Route path="/admin/setting" element={<Setting />} />
 
               {/* Pretest */}

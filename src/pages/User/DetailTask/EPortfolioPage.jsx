@@ -6,6 +6,7 @@ import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { HiChevronLeft } from "react-icons/hi";
 import { API_PATHS } from "../../../utils/apiPaths";
 import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const EPortfolioPage = () => {
   const { user } = useContext(UserContext);
@@ -13,6 +14,10 @@ const EPortfolioPage = () => {
   const [data, setData] = useState(null);
   const [averageScore, setAverageScore] = useState(null);
   const [loadingDownload, setLoadingDownload] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const taskId = location.state?.taskId;
+  const ePortfolioId = localStorage.getItem("ePortfolioId");
 
   const fetchData = async () => {
     try {
@@ -145,7 +150,9 @@ const EPortfolioPage = () => {
 
                 {(data.taskSubmissions || []).map((submission, idx) => (
                   <div key={idx} className="mb-8">
-                    <h3 className="text-xl font-semibold mb-4">{submission.task?.title || `Tugas ${idx + 1}`}</h3>
+                    <h3 className="text-xl font-semibold mb-4">
+                      {idx + 1}. {submission.task?.title || `Tugas ${idx + 1}`}
+                    </h3>
 
                     {(submission.task?.essayQuestions || []).map((q, i) => {
                       const answer = submission.essayAnswers?.find((ea) => ea.questionId === q._id);
@@ -169,16 +176,25 @@ const EPortfolioPage = () => {
                       );
                     })}
 
-                    {(submission.task?.problem || []).map((p, i) => {
-                      const answer = submission.problemAnswer?.find((pa) => pa.questionId === p._id);
-                      return (
-                        <div key={i} className="mb-2">
-                          <p className="font-medium">Problem {i + 1}:</p>
-                          <p className="italic mb-1">{p.problem || "(Soal belum tersedia)"}</p>
-                          <p className="ml-4">Jawaban: {answer?.problem || "Belum dijawab"}</p>
-                        </div>
-                      );
-                    })}
+                    {(submission.task?.problem || [])
+                      .filter((p) => submission.problemAnswer?.some((pa) => pa.questionId.toString() === p._id.toString()))
+                      .map((p) => {
+                        const answer = submission.problemAnswer.find((pa) => pa.questionId.toString() === p._id.toString());
+
+                        const originalIndex = (submission.task?.problem || []).findIndex((originalProblem) => originalProblem._id.toString() === p._id.toString());
+
+                        return (
+                          <div key={p._id} className="mb-4">
+                            <p className="font-medium">Problem Kelompok {originalIndex + 1}:</p>
+                            <div className="pl-4 mt-1 border-l-2 border-gray-200">
+                              <p className="italic mb-1">{p.problem || "(Soal belum tersedia)"}</p>
+                              <p>
+                                <strong>Jawaban:</strong> {answer?.problem || "Belum dijawab"}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
 
                     {submission.feedbackFile && (
                       <div className="mt-4">
@@ -227,6 +243,20 @@ const EPortfolioPage = () => {
                 ))}
               </div>
             </div>
+
+            <button
+              onClick={() =>
+                navigate("/survey", {
+                  state: {
+                    taskTitle: "E-Portfolio",
+                    taskId: ePortfolioId,
+                  },
+                })
+              }
+              className="bg-blue-600 w-full cursor-pointer text-white px-6 py-2 rounded-md mt-4 hover:bg-blue-700"
+            >
+              Selesai
+            </button>
           </div>
         </div>
       </div>

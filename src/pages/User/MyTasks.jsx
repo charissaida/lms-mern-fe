@@ -1,23 +1,28 @@
 import React, { useEffect, useState, useContext } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
-import { LuFileSpreadsheet } from "react-icons/lu";
-import TaskStatusTabs from "../../components/TaskStatusTabs";
-import TaskCard from "../../components/Cards/TaskCard";
 import TaskCard2 from "../../components/Cards/TaskCard2";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/userContext";
+import { ObjectId } from "bson";
 
 const MyTasks = () => {
   const [allTasks, setAllTasks] = useState([]);
-  const [tabs, setTabs] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All");
   const [surveyedTaskIds, setSurveyedTaskIds] = useState([]);
+  const [ePortfolioId, setEPortfolioId] = useState(null);
 
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const fixedId = "6870c39f1782cf126fa700e1";
+    localStorage.setItem("ePortfolioId", fixedId);
+    setEPortfolioId(fixedId);
+  }, []);
 
   const getSurveyedTasks = async () => {
     try {
@@ -53,7 +58,8 @@ const MyTasks = () => {
 
       // Tambahkan task E-Portfolio di akhir
       const ePortfolioTask = {
-        _id: "e-portfolio",
+        _id: "6870c39f1782cf126fa700e1",
+        taskType: "e-portfolio",
         title: "E-Portfolio",
         description: "Lengkapi portofolio akhirmu di sini.",
         status: "Pending",
@@ -94,8 +100,8 @@ const MyTasks = () => {
       navigate(`/user/lo/${task._id}`);
     } else if (title.includes("berpikir")) {
       navigate(`/user/kbk/${task._id}`);
-    } else if (task._id === "e-portfolio") {
-      navigate("/user/e-portfolio");
+    } else if (task.taskType === "e-portfolio") {
+      navigate("/user/e-portfolio", { state: { taskId: task._id } });
     } else {
       navigate(`/user/task-details/${task._id}`);
     }
@@ -111,6 +117,14 @@ const MyTasks = () => {
     getAllTasks(filterStatus);
     return () => {};
   }, [filterStatus]);
+
+  useEffect(() => {
+    const ePortfolioWasCompleted = location.state?.ePortfolioCompleted;
+    if (ePortfolioWasCompleted && ePortfolioId) {
+      setSurveyedTaskIds((prev) => [...new Set([...prev, ePortfolioId])]);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, navigate, ePortfolioId]);
 
   return (
     <DashboardLayout activeMenu="Courses">
