@@ -35,7 +35,7 @@ import ProblemResultAnswer from "./pages/User/ResultAnswer/ProblemResultAnswer";
 import ProblemAnswerDetail from "./pages/Admin/DetailAnswer/ProblemAnswerDetail";
 import MindmapAdmin from "./pages/Admin/DetailTask/MindmapAdmin";
 import MindmapListAnswer from "./pages/Admin/AnswerTask/MindmapListAnswer";
-import MindmapPage from "./pages/User/DetailTask/Mindmappage";
+import MindmapPage from "./pages/User/DetailTask/MindmapPage";
 import MindmapResultAnswer from "./pages/User/ResultAnswer/MindmapResultAnswer";
 import MindmapAnswerDetail from "./pages/Admin/DetailAnswer/MindmapAnswerDetail";
 import RefleksiAdmin from "./pages/Admin/DetailTask/RefleksiAdmin";
