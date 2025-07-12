@@ -9,7 +9,7 @@ const NavbarAuth = () => {
         <img src={logo} alt="Logo" className="h-6" />
         <h2 className="text-lg font-medium text-black">EduPlant Metrics</h2>
       </Link>
-      <div className="space-x-4">
+      <div className="space-x-4 hidden md:flex">
         <Link to="/login" className="text-sm px-4 py-1 border border-gray-300 rounded hover:bg-gray-100">
           Log In
         </Link>
