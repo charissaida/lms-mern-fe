@@ -88,7 +88,7 @@ const UserDashboard = () => {
         <div className="flex mt-4 gap-5">
           <img src={logo} alt="logo" className="h-20" />
           <div className="flex flex-col">
-            <h4 className="text-2xl font-medium">AIR DAN TUMBUHAN</h4>
+            <h4 className="text-2xl font-medium">Hubungan Tumbuhan dengan Air</h4>
             <p className="text-md text-gray-600">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
               eu fugiat nulla pariatur.

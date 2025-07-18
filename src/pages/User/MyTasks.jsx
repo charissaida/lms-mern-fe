@@ -7,6 +7,7 @@ import TaskCard2 from "../../components/Cards/TaskCard2";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/userContext";
 import { ObjectId } from "bson";
+import PlantProgressCircle from "../../components/PlantProgressCircle";
 
 const MyTasks = () => {
   const [allTasks, setAllTasks] = useState([]);
@@ -28,7 +29,16 @@ const MyTasks = () => {
     try {
       const res = await axiosInstance.get(API_PATHS.TASKS.GET_SURVEY_BY_USER_ID(user._id));
       const surveyList = Array.isArray(res.data) ? res.data : [res.data];
-      const taskIds = surveyList.map((s) => s.idTask);
+
+      const latestSurveyPerTask = {};
+      surveyList.forEach((survey) => {
+        const existing = latestSurveyPerTask[survey.idTask];
+        if (!existing || new Date(survey.createdAt) > new Date(existing.createdAt)) {
+          latestSurveyPerTask[survey.idTask] = survey;
+        }
+      });
+
+      const taskIds = Object.values(latestSurveyPerTask).map((s) => s.idTask);
       setSurveyedTaskIds(taskIds);
     } catch (error) {
       if (error.response?.status === 404) {
@@ -54,7 +64,20 @@ const MyTasks = () => {
         })) || [];
 
       const combinedTasks = [...generalTasks, ...mindmapTasks, ...materialTasks];
-      let sortedTasks = combinedTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      const taskOrder = ["pretest", "orient students", "mindmap", "materi", "postest", "refleksi", "learning", "berpikir", "e-portfolio"];
+
+      const getTaskOrderIndex = (task) => {
+        const lowerTitle = (task.title || "").toLowerCase();
+        if (task.taskType === "e-portfolio") return taskOrder.indexOf("e-portfolio");
+        for (let i = 0; i < taskOrder.length; i++) {
+          if (lowerTitle.includes(taskOrder[i])) return i;
+        }
+        return taskOrder.length; // Jika tidak cocok, letakkan di akhir
+      };
+
+      let sortedTasks = combinedTasks.sort((a, b) => {
+        return getTaskOrderIndex(a) - getTaskOrderIndex(b);
+      });
 
       // Tambahkan task E-Portfolio di akhir
       const ePortfolioTask = {
@@ -86,7 +109,7 @@ const MyTasks = () => {
       navigate(`/user/pretest/${task._id}`);
     } else if (title.includes("postest")) {
       navigate(`/user/postest/${task._id}`);
-    } else if (title.includes("problem")) {
+    } else if (task.isProblem === true) {
       navigate(`/user/problem/${task._id}`);
     } else if (title.includes("mindmap")) {
       navigate(`/user/mindmap/${task._id}`);
@@ -131,6 +154,7 @@ const MyTasks = () => {
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
           <h2 className="text-xl md:text-xl font-medium">Hubungan Air dan Tumbuhan</h2>
+          <PlantProgressCircle totalTasks={allTasks.length} completedTasks={surveyedTaskIds.length} />
         </div>
 
         <div className="relative flex flex-col gap-6 mt-4 pl-4">

@@ -106,7 +106,7 @@ const EPortfolioPage = () => {
               {/* Cover */}
               <div className="h-[100vh] flex flex-col items-center justify-center bg-teal-800 text-white">
                 <h1 className="text-5xl font-bold">E-Portfolio</h1>
-                <p className="text-2xl mt-2">Fisiologi Tumbuhan: Hubungan Air dan Tumbuhan</p>
+                <p className="text-2xl mt-2">Fisiologi Tumbuhan: Hubungan Tumbuhan dengan Air</p>
                 {user.profileImageUrl && <img src={user.profileImageUrl} alt="Profile" className="w-32 h-40 object-cover mt-6 rounded" />}
                 <p className="mt-4 text-2xl font-semibold">{user.name}</p>
                 <p className="text-lg">{user.nim}</p>

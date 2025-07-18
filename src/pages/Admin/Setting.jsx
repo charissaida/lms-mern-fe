@@ -60,9 +60,9 @@ const Setting = () => {
     setLoading(true);
 
     try {
-      const { name, nim, offering, email, username, password, profileImageUrl, role } = formData;
+      const { name, email, username, password, profileImageUrl, role } = formData;
 
-      if (!name || !nim || !offering || !email) {
+      if (!name || !email) {
         toast.error("Semua field wajib diisi!");
         setLoading(false);
         return;
@@ -70,8 +70,6 @@ const Setting = () => {
 
       const payload = {
         name,
-        nim,
-        offering,
         email,
         username,
         password,
@@ -114,16 +112,8 @@ const Setting = () => {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Nama</label>
+            <label className="text-sm font-medium text-gray-700">Nama Dosen</label>
             <input name="name" value={formData.name} onChange={handleChange} className="w-full border-2 border-gray-300 rounded px-3 py-2 mt-1" />
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700">NIM</label>
-            <input name="nim" value={formData.nim} onChange={handleChange} className="w-full border-2 border-gray-300 rounded px-3 py-2 mt-1" />
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700">Offering</label>
-            <input name="offering" value={formData.offering} onChange={handleChange} className="w-full border-2 border-gray-300 rounded px-3 py-2 mt-1" />
           </div>
           <div>
             <label className="text-sm font-medium text-gray-700">Email</label>
