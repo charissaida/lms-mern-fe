@@ -19,6 +19,7 @@ const Setting = () => {
     username: "",
     password: "",
     profileImageUrl: "",
+    institution: "",
   });
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const Setting = () => {
         password: "",
         profileImageUrl: user.profileImageUrl || "",
         role: user.role || "",
+        institution: user.institution || "",
       });
     }
   }, [user]);
@@ -60,7 +62,7 @@ const Setting = () => {
     setLoading(true);
 
     try {
-      const { name, email, username, password, profileImageUrl, role } = formData;
+      const { name, email, username, password, profileImageUrl, role, institution } = formData;
 
       if (!name || !email) {
         toast.error("Semua field wajib diisi!");
@@ -75,6 +77,7 @@ const Setting = () => {
         password,
         profileImageUrl,
         role,
+        institution,
       };
       await axiosInstance.put(API_PATHS.USERS.UPDATE_USER_BY_ID(user._id), payload);
 
@@ -114,6 +117,10 @@ const Setting = () => {
           <div>
             <label className="text-sm font-medium text-gray-700">Nama Dosen</label>
             <input name="name" value={formData.name} onChange={handleChange} className="w-full border-2 border-gray-300 rounded px-3 py-2 mt-1" />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Asal Instansi</label>
+            <input name="institution" value={formData.institution} onChange={handleChange} className="w-full border-2 border-gray-300 rounded px-3 py-2 mt-1" />
           </div>
           <div>
             <label className="text-sm font-medium text-gray-700">Email</label>

@@ -15,7 +15,7 @@ import plant12 from "../assets/images/plant/plant-12.png";
 import plant13 from "../assets/images/plant/plant-13.png";
 import plant14 from "../assets/images/plant/plant-14.png";
 import plant15 from "../assets/images/plant/plant-15.png";
-import plantSound from "../../assets/sounds/plant-grow.mp3";
+import plantSound from "../assets/sounds/plant-grow.mp3";
 
 const plantImages = [plant1, plant2, plant3, plant4, plant5, plant6, plant7, plant8, plant9, plant10, plant11, plant12, plant13, plant14, plant15];
 
