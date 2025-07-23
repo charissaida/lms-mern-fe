@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 import { UserContext } from "../../../context/userContext";
 import io from "socket.io-client";
 
-// const socket = io("https://eduplant-be.vercel.app/");
-const socket = io("http://localhost:8000");
+const socket = io("https://eduplant-be.vercel.app/");
+// const socket = io("http://localhost:8000");
 
 const ProblemGroupPage = () => {
   const { id: problemId } = useParams();
