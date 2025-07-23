@@ -64,7 +64,7 @@ const MyTasks = () => {
         })) || [];
 
       const combinedTasks = [...generalTasks, ...mindmapTasks, ...materialTasks];
-      const taskOrder = ["pretest", "orient students", "mindmap", "materi", "postest", "refleksi", "learning", "berpikir", "e-portfolio"];
+      const taskOrder = ["pretest", "orient students", "organize", "mindmap", "materi", "assist", "develop", "analyze", "postest", "postest", "refleksi", "learning", "berpikir", "e-portfolio"];
 
       const getTaskOrderIndex = (task) => {
         const lowerTitle = (task.title || "").toLowerCase();

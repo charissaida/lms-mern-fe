@@ -40,7 +40,20 @@ const ManageTasks = () => {
         })),
       ];
 
-      const sorted = allData.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      const taskOrder = ["pretest", "orient students", "organize", "mindmap", "materi", "assist", "develop", "analyze", "postest", "refleksi", "learning", "berpikir"];
+
+      const getTaskOrderIndex = (task) => {
+        const lowerTitle = (task.title || "").toLowerCase();
+        for (let i = 0; i < taskOrder.length; i++) {
+          if (lowerTitle.includes(taskOrder[i])) return i;
+        }
+        return taskOrder.length;
+      };
+
+      const sorted = allData.sort((a, b) => {
+        return getTaskOrderIndex(a) - getTaskOrderIndex(b);
+      });
+
       setAllTasks(sorted);
 
       const summary = taskRes.data?.statusSummary || {};
