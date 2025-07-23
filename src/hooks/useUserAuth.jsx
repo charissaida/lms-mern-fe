@@ -13,7 +13,7 @@ export const useUserAuth = () => {
 
     if (!user) {
       clearUser();
-      navigate("/");
+      navigate("/login");
     }
   }, [user, loading, navigate, clearUser]);
 };
