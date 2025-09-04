@@ -7,6 +7,10 @@ import { HiChevronLeft } from "react-icons/hi";
 import { API_PATHS } from "../../../utils/apiPaths";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const EPortfolioPage = () => {
   const { user } = useContext(UserContext);
@@ -14,6 +18,7 @@ const EPortfolioPage = () => {
   const [data, setData] = useState(null);
   const [averageScore, setAverageScore] = useState(null);
   const [loadingDownload, setLoadingDownload] = useState(false);
+  const [chartData, setChartData] = useState({ datasets: [] });
   const navigate = useNavigate();
   const location = useLocation();
   const taskId = location.state?.taskId;
@@ -22,12 +27,106 @@ const EPortfolioPage = () => {
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get(`/api/tasks/full-submissions/${userId}`);
-      setData(res.data);
+      const rawData = res.data;
+      const allSubmissions = [...(rawData.taskSubmissions || []), ...(rawData.mindmapSubmissions || [])];
 
-      const scores = [...(res.data.taskSubmissions || []), ...(res.data.mindmapSubmissions || [])].map((item) => item.score).filter((s) => typeof s === "number");
+      const latestSubmissionsMap = new Map();
+      allSubmissions.forEach((submission) => {
+        if (!submission.task?._id) return;
+        const taskId = submission.task._id;
+        const existing = latestSubmissionsMap.get(taskId);
+        if (!existing || new Date(submission.submittedAt) > new Date(existing.submittedAt)) {
+          latestSubmissionsMap.set(taskId, submission);
+        }
+      });
+      const latestSubmissionsArray = Array.from(latestSubmissionsMap.values());
 
+      const taskOrder = [
+        "ownership 1",
+        "kreatif 1",
+        "pretest",
+        "orient students",
+        "deskriptif 1",
+        "deskriptif 2",
+        "deskriptif 3",
+        "organize",
+        "mindmap",
+        "materi",
+        "reflektif 1",
+        "reflektif 2",
+        "reflektif 3",
+        "assist",
+        "develop",
+        "analyze",
+        "postest",
+        "ownership 2",
+        "kreatif 2",
+        "refleksi",
+        "e-portfolio",
+      ];
+
+      const getTaskOrderIndex = (submission) => {
+        const title = submission.task?.title || submission.type || "";
+        const lowerTitle = title.toLowerCase();
+        for (let i = 0; i < taskOrder.length; i++) {
+          if (lowerTitle.includes(taskOrder[i])) return i;
+        }
+        return taskOrder.length;
+      };
+
+      const sortedSubmissions = latestSubmissionsArray.sort((a, b) => getTaskOrderIndex(a) - getTaskOrderIndex(b));
+
+      setData({
+        ...rawData,
+        taskSubmissions: sortedSubmissions.filter((s) => s.task),
+        mindmapSubmissions: sortedSubmissions.filter((s) => !s.task && s.type === "mindmap"),
+      });
+
+      const scores = sortedSubmissions.map((item) => item.score).filter((s) => typeof s === "number");
       const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
       setAverageScore(avg.toFixed(2));
+
+      const findScore = (title) => {
+        const submission = sortedSubmissions.find((s) => s.task?.title.toLowerCase().includes(title.toLowerCase()));
+        return submission ? submission.score : null;
+      };
+
+      const filterAndSumScores = (titles) => {
+        let total = 0;
+        let count = 0;
+        titles.forEach((title) => {
+          const submission = sortedSubmissions.find((s) => s.task?.title.toLowerCase().includes(title.toLowerCase()));
+          if (submission && typeof submission.score === "number") {
+            total += submission.score;
+            count++;
+          }
+        });
+        return count > 0 ? total / count : null;
+      };
+
+      const kbkScores = [findScore("kreatif 1"), findScore("pretest"), findScore("postest"), findScore("kreatif 2")];
+
+      const loScores = [findScore("ownership 1"), filterAndSumScores(["deskriptif 1", "deskriptif 2", "deskriptif 3"]), filterAndSumScores(["reflektif 1", "reflektif 2", "reflektif 3"]), findScore("ownership 2")];
+
+      setChartData({
+        labels: ["Attempt 1", "Attempt 2", "Attempt 3", "Attempt 4"],
+        datasets: [
+          {
+            label: "Keterampilan Berpikir Kreatif (KBK)",
+            data: kbkScores.filter((score) => score !== null),
+            borderColor: "rgb(130, 202, 157)",
+            backgroundColor: "rgba(130, 202, 157, 0.5)",
+            tension: 0.1,
+          },
+          {
+            label: "Learning Ownership (LO)",
+            data: loScores.filter((score) => score !== null),
+            borderColor: "rgb(136, 132, 216)",
+            backgroundColor: "rgba(136, 132, 216, 0.5)",
+            tension: 0.1,
+          },
+        ],
+      });
     } catch (err) {
       console.error("Gagal mengambil data e-portofolio:", err);
     }
@@ -82,6 +181,22 @@ const EPortfolioPage = () => {
   };
 
   if (!data || !user) return <div className="text-center mt-10">Loading...</div>;
+  const allSubmissionsForTable = [...(data.taskSubmissions || []), ...(data.mindmapSubmissions || [])];
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+      },
+    },
+  };
 
   return (
     <DashboardLayout activeMenu="Courses">
@@ -142,6 +257,11 @@ const EPortfolioPage = () => {
                     </tr>
                   </tbody>
                 </table>
+                {/* --- TAMBAHAN: Grafik Line Chart --- */}
+                <div className="mt-12">
+                  <h2 className="text-3xl font-bold mb-6 text-center">Grafik Perkembangan Nilai</h2>
+                  <Line options={chartOptions} data={chartData} />
+                </div>
               </div>
 
               {/* Jawaban */}
@@ -186,11 +306,44 @@ const EPortfolioPage = () => {
                         return (
                           <div key={p._id} className="mb-4">
                             <p className="font-medium">Problem Kelompok {originalIndex + 1}:</p>
-                            <div className="pl-4 mt-1 border-l-2 border-gray-200">
-                              <p className="italic mb-1">{p.problem || "(Soal belum tersedia)"}</p>
-                              <p>
-                                <strong>Jawaban:</strong> {answer?.problem || "Belum dijawab"}
-                              </p>
+                            <div className="pl-4 mt-2 border-l-4 border-gray-300">
+                              {/* Soal Section */}
+                              <div className="mb-4">
+                                <p className="italic mb-2 text-gray-700">{p.problem || "(Soal belum tersedia)"}</p>
+                                {p.pdfFiles && p.pdfFiles.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="font-medium mb-1">File Soal:</p>
+                                    {p.pdfFiles.map((fileUrl, fileIdx) => (
+                                      <div key={fileIdx} className="mb-4">
+                                        <div className="print:hidden">
+                                          <iframe src={fileUrl} width="100%" height="500px" className="rounded border" title={`Soal PDF ${originalIndex + 1}-${fileIdx + 1}`} />
+                                        </div>
+                                        <div className="hidden print:block text-gray-500 text-sm border p-2 mt-2">[Konten file PDF soal tidak disertakan dalam hasil cetak]</div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Jawaban Section */}
+                              <div className="mt-4 pt-4 border-t">
+                                <p className="mb-2">
+                                  <strong>Jawaban:</strong> {answer?.problem || "Belum dijawab"}
+                                </p>
+                                {answer?.files && answer.files.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="font-medium mb-1">File Jawaban:</p>
+                                    {answer.files.map((fileUrl, fileIdx) => (
+                                      <div key={fileIdx} className="mb-4">
+                                        <div className="print:hidden">
+                                          <iframe src={fileUrl} width="100%" height="500px" className="rounded border" title={`Jawaban PDF ${originalIndex + 1}-${fileIdx + 1}`} />
+                                        </div>
+                                        <div className="hidden print:block text-gray-500 text-sm border p-2 mt-2">[Konten file PDF jawaban tidak disertakan dalam hasil cetak]</div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         );
