@@ -143,7 +143,11 @@ const MyTasks = () => {
       navigate(`/user/glosarium/${task._id}`);
     } else if (title.includes("learning")) {
       navigate(`/user/lo/${task._id}`);
+    } else if (title.includes("deskriptif")) {
+      navigate(`/user/lo/${task._id}`);
     } else if (title.includes("berpikir")) {
+      navigate(`/user/kbk/${task._id}`);
+    } else if (title.includes("reflektif")) {
       navigate(`/user/kbk/${task._id}`);
     } else if (task.taskType === "e-portfolio") {
       navigate("/user/e-portfolio", { state: { taskId: task._id } });
