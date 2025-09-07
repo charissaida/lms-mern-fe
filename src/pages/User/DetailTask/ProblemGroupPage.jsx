@@ -7,8 +7,6 @@ import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { GiBackwardTime } from "react-icons/gi";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../context/userContext";
-// import io from "socket.io-client";
-// import socket from "../../../utils/socket";
 
 // const socket = io("https://eduplant-be.vercel.app/");
 // const socket = io("http://localhost:8000");
@@ -37,6 +35,10 @@ const ProblemGroupPage = () => {
 
   const getTaskAndSubmission = async () => {
     try {
+      if (!taskId || !problemId) {
+        console.error("Task ID or Problem ID is missing.");
+        return;
+      }
       const resTask = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_ID(taskId));
       const taskData = resTask.data;
       const foundProblem = (taskData.problem || []).find((p) => p._id === problemId);
@@ -45,7 +47,31 @@ const ProblemGroupPage = () => {
       setTask(taskData);
       setProblem(foundProblem);
 
-      const resGroup = await axiosInstance.get(`/api/groups/problem/${problemId}`);
+      let resGroup;
+      try {
+        // 2. Coba ambil data grup. Jika gagal (404), buat grup baru.
+        resGroup = await axiosInstance.get(`/api/groups/problem/${problemId}`, {
+          params: { taskId },
+        });
+      } catch (error) {
+        if (error.response?.status === 404) {
+          // ✅ Grup tidak ditemukan, buat grup baru
+          toast("Kelompok belum dibuat. Membuat kelompok baru...");
+          const createRes = await axiosInstance.post(API_PATHS.GROUPS.CREATE, {
+            name: `Grup ${groupNumber}`,
+            members: [user._id],
+            taskId,
+            problemId,
+          });
+          resGroup = { data: createRes.data };
+          toast.success("Kelompok berhasil dibuat!");
+        } else {
+          // ✅ Handle error lainnya, termasuk timeout
+          console.error("Error fetching or creating group:", error);
+          toast.error("Gagal memuat atau membuat kelompok.");
+          return;
+        }
+      }
       setGroup(resGroup.data);
       // socket.emit("join-group", resGroup.data._id);
 
@@ -165,6 +191,7 @@ const ProblemGroupPage = () => {
   //     toast.error("Gagal mengirim pesan");
   //   }
   // };
+
   if (!task || !problem) return <div className="text-center mt-10">Memuat...</div>;
 
   return (

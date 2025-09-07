@@ -40,7 +40,29 @@ const ManageTasks = () => {
         })),
       ];
 
-      const taskOrder = ["pretest", "orient students", "organize", "mindmap", "materi", "assist", "develop", "analyze", "postest", "refleksi", "learning", "berpikir"];
+      const taskOrder = [
+        "ownership 1",
+        "kreatif 1",
+        "pretest",
+        "orient students",
+        "deskriptif 1",
+        "deskriptif 2",
+        "deskriptif 3",
+        "organize",
+        "mindmap",
+        "materi",
+        "reflektif 1",
+        "reflektif 2",
+        "reflektif 3",
+        "assist",
+        "develop",
+        "analyze",
+        "postest",
+        "ownership 2",
+        "kreatif 2",
+        "refleksi",
+        "e-portfolio",
+      ];
 
       const getTaskOrderIndex = (task) => {
         const lowerTitle = (task.title || "").toLowerCase();

@@ -76,5 +76,6 @@ export const API_PATHS = {
     GET_GROUP_BY_PROBLEM_ID: (taskId, problemId) => `/api/tasks/${taskId}/problem/${problemId}/group`,
     GET_MESSAGES_BY_GROUP_ID: (groupId) => `/api/groups/${groupId}/messages`,
     POST_MESSAGE_TO_GROUP: (groupId) => `/api/groups/${groupId}/messages`,
+    CREATE: "/api/groups/create",
   },
 };

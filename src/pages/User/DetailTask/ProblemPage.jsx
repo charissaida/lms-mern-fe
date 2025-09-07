@@ -55,12 +55,10 @@ const ProblemPage = () => {
     }
   }, [id, user?._id]);
 
-  const handleSelectGroup = (groupId, index) => {
-    // Simpan ke localStorage agar tidak bisa pilih ulang
-    localStorage.setItem(`selectedProblem_${id}_${user._id}`, groupId);
-    setSelectedGroupId(groupId);
+  const handleSelectGroup = (problemId, index) => {
+    // localStorage.setItem(`selectedProblem_${id}_${user._id}`, problemId);
 
-    navigate(`/user/problem/group/${groupId}`, {
+    navigate(`/user/problem/group/${problemId}`, {
       state: { groupNumber: index + 1, taskId: task._id },
     });
   };
