@@ -1,4 +1,4 @@
-export const BASE_URL = "https://eduplant-be.vercel.app/";
+export const BASE_URL = "https://eduplant.duckdns.org/";
 // export const BASE_URL = "http://localhost:8000";
 
 export const API_PATHS = {
