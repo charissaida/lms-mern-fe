@@ -13,18 +13,7 @@ const MindmapListAnswer = () => {
   const getUserAnswers = async () => {
     try {
       const res = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_MINDMAP_BY_TASK_ID(taskId));
-      const allSubmissions = res.data || [];
-
-      const latestAnswers = new Map();
-      allSubmissions.forEach((submission) => {
-        if (submission.user && submission.user._id) {
-          const userId = submission.user._id;
-          if (!latestAnswers.has(userId) || new Date(submission.createdAt) > new Date(latestAnswers.get(userId).createdAt)) {
-            latestAnswers.set(userId, submission);
-          }
-        }
-      });
-      setAnswers(Array.from(latestAnswers.values()));
+      setAnswers(res.data);
     } catch (error) {
       console.error("Gagal mengambil data jawaban:", error);
     }

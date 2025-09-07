@@ -27,14 +27,14 @@ const MindmapPage = () => {
       setTask(resTask.data);
 
       const resSub = await axiosInstance.get(API_PATHS.TASKS.GET_SUBMISSION_MINDMAP_BY_ID_USER(id));
-      const userSubmissions = (resSub.data?.submissions || []).filter((s) => s.task._id === id);
-
-      if (userSubmissions.length > 0) {
-        const latestSubmission = userSubmissions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-        setSubmission(latestSubmission);
-      }
+      setSubmission(resSub.data);
     } catch (err) {
-      console.error("Error fetching mindmap data", err);
+      if (err.response && err.response.status === 404) {
+        setSubmission(null);
+      } else {
+        console.error("Error fetching mindmap data", err);
+        toast.error("Gagal memuat data tugas atau jawaban.");
+      }
     }
   };
 
@@ -60,6 +60,7 @@ const MindmapPage = () => {
       });
       toast.success("Berhasil mengumpulkan jawaban!");
       fetchData();
+      window.location.reload();
     } catch (err) {
       toast.error("Gagal mengirim jawaban");
       console.error(err);

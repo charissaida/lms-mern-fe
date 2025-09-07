@@ -1,5 +1,6 @@
-export const BASE_URL = "https://eduplant.duckdns.org/";
+// export const BASE_URL = "https://eduplant.duckdns.org/";
 // export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://203.194.114.43/";
 
 export const API_PATHS = {
   AUTH: {
