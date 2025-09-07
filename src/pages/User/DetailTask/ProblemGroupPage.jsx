@@ -7,8 +7,8 @@ import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { GiBackwardTime } from "react-icons/gi";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../context/userContext";
-import io from "socket.io-client";
-import socket from "../../../utils/socket";
+// import io from "socket.io-client";
+// import socket from "../../../utils/socket";
 
 // const socket = io("https://eduplant-be.vercel.app/");
 // const socket = io("http://localhost:8000");
@@ -47,7 +47,7 @@ const ProblemGroupPage = () => {
 
       const resGroup = await axiosInstance.get(`/api/groups/problem/${problemId}`);
       setGroup(resGroup.data);
-      socket.emit("join-group", resGroup.data._id);
+      // socket.emit("join-group", resGroup.data._id);
 
       const resMsg = await axiosInstance.get(`/api/groups/${resGroup.data._id}/messages`);
       setMessages(resMsg.data);
@@ -75,20 +75,20 @@ const ProblemGroupPage = () => {
     if (taskId && problemId && user?._id) {
       getTaskAndSubmission();
     }
-    return () => {
-      if (group?._id) socket.emit("leave-group", group._id);
-    };
+    // return () => {
+    //   if (group?._id) socket.emit("leave-group", group._id);
+    // };
   }, [taskId, problemId, user]);
 
-  useEffect(() => {
-    socket.on("group:message", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+  // useEffect(() => {
+  //   socket.on("group:message", (msg) => {
+  //     setMessages((prev) => [...prev, msg]);
+  //   });
 
-    return () => {
-      socket.off("group:message");
-    };
-  }, [group?._id]);
+  //   return () => {
+  //     socket.off("group:message");
+  //   };
+  // }, [group?._id]);
 
   useEffect(() => {
     if (messageEndRef.current) {
@@ -154,17 +154,17 @@ const ProblemGroupPage = () => {
     }
   };
 
-  const handleSendMessage = async () => {
-    if (!newMessage || !group?._id || !joined) return;
-    try {
-      await axiosInstance.post(`/api/groups/${group._id}/send`, {
-        message: newMessage,
-      });
-      setNewMessage("");
-    } catch (err) {
-      toast.error("Gagal mengirim pesan");
-    }
-  };
+  // const handleSendMessage = async () => {
+  //   if (!newMessage || !group?._id || !joined) return;
+  //   try {
+  //     await axiosInstance.post(`/api/groups/${group._id}/send`, {
+  //       message: newMessage,
+  //     });
+  //     setNewMessage("");
+  //   } catch (err) {
+  //     toast.error("Gagal mengirim pesan");
+  //   }
+  // };
 
   if (!task || !problem) return <div className="text-center mt-10">Memuat...</div>;
 
