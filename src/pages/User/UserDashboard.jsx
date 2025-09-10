@@ -95,7 +95,7 @@ const UserDashboard = () => {
       </div>
 
       <div className="card my-5">
-        <h2 className="text-2xl font-semibold mb-4">Apa yang akan Anda pelajari</h2>
+        <h2 className="text-2xl font-semibold mb-4">Apa yang akan Anda pelajari?</h2>
         <p className="text-gray-700 mb-4">
           Topik Hubungan Tumbuhan dengan Air membahas peran esensial air dalam menunjang kehidupan tumbuhan. Kajian ini mencakup aspek fisiologis yang menentukan keberlangsungan pertumbuhan dan perkembangan tumbuhan. Materi utama yang
           difokuskan meliputi:
