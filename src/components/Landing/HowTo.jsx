@@ -28,16 +28,11 @@ const steps = [
   },
   {
     number: "6",
-    title: "Gunakan Forum Diskusi",
-    description: "Manfaatkan Forum Diskusi untuk bertanya, menanggapi, dan merefleksikan ide secara kolaboratif dengan rekan satu kelompok.",
-  },
-  {
-    number: "7",
     title: "Pantau Emosi Belajar (Joyful Learning)",
     description: "Berikan respons emoticon setelah setiap sesi untuk mencerminkan pengalaman belajar Anda dan tumbuhkan tanaman virtual dengan menyelesaikan tugas secara rutin.",
   },
   {
-    number: "8",
+    number: "7",
     title: "Konsistensi dan Kualitas (Mindful & Meaningful Learning)",
     description: "Pastikan setiap tugas yang dikirimkan menunjukkan pemikiran kritis dan keterkaitan antara materi dengan konteks nyata.",
   },

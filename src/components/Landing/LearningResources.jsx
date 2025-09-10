@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 
 const resources = [
   {
+    title: "Modul",
+    href: "https://docs.google.com/document/d/1QZNKko_TZ_2PeM22YGD4ZtOQISIoQaLQ5l3KuetmrMg/edit?tab=t.0",
+  },
+  {
     title: "LKM Fisiologi Tumbuhan",
     href: "https://docs.google.com/document/d/1q2yZup_EOE3_-C3DLUnQ6hNMK8CYreOq/edit?usp=drive_link&ouid=109908328452741407163&rtpof=true&sd=true",
   },
@@ -14,12 +18,16 @@ const resources = [
     title: "SAP",
     href: "https://docs.google.com/document/d/1zCquUPoHt5ESvR4ihXiHZGpLD2Hz7LpC/edit?usp=drive_link&ouid=109908328452741407163&rtpof=true&sd=true",
   },
+  {
+    title: "E-Portofolio Kelas",
+    href: "https://sites.google.com/view/portfoliooffc",
+  },
 ];
 
 const LearningResources = () => {
   return (
     <section className="pt-12 bg-gray-50 text-center">
-      <div className="max-w-3xl mb-4 mx-auto">
+      <div className="max-w-6xl mb-4 mx-auto">
         <h2 className="text-xl font-bold text-gray-800 mb-6">Perangkat Pembelajaran</h2>
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
           {resources.map((res, index) => (

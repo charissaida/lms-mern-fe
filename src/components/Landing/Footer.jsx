@@ -21,9 +21,9 @@ const Footer = () => {
         <div className="md:ml-20">
           <h3 className="text-white font-semibold mb-2">Contact Us</h3>
           <ul className="text-gray-300 text-sm space-y-1 mb-4">
-            <li>Alamat: 123 Main Street, Anytown, ID 12345</li>
-            <li>Tel: (+62) 81234567890</li>
-            <li>Mail: someone@gmail.com</li>
+            <li>Alamat : Jalan Semarang 5, Malang</li>
+            <li>Telepon : 085657059981</li>
+            <li>E-mail : luffi.karimah.2403418@students.um.ac.id</li>
           </ul>
           <div className="flex gap-4 text-white text-xl">
             <FaFacebook className="hover:text-blue-400 transition" />

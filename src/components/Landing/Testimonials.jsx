@@ -20,12 +20,6 @@ const testimonialData = [
     image: "https://randomuser.me/api/portraits/women/44.jpg",
   },
   {
-    quote: "Fitur diskusi dan studi kasus membuat pembelajaran terasa lebih hidup. Saya bisa belajar dari pengalaman teman-teman juga.",
-    name: "R. Dwi",
-    role: "Siswa",
-    image: "https://randomuser.me/api/portraits/men/65.jpg",
-  },
-  {
     quote: "E-portofolio sangat membantu saya menyimpan hasil belajar dan menunjukkan progress saya ke dosen maupun recruiter.",
     name: "L. Sari",
     role: "Pelajar",
